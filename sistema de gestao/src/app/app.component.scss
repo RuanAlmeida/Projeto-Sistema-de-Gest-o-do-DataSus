@@ -1,0 +1,48 @@
+$cor-azul-padrao:#0b5f96;
+
+.ui.attached.menu:not(.tabular), .inverted.vertical {
+    background-color: $cor-azul-padrao;
+}
+
+.right.item.text, .item.text {
+    color: white;
+    font-family: vidaloka, serif;
+    font-size: 1em;
+}
+
+.ui.attached.menu:not(.tabular) {
+    border: 1px solid #090c15;
+}
+
+.ui.link.menu .item:hover, .ui.menu .dropdown.item:hover, .ui.menu .link.item:hover, .ui.menu a.item:hover {
+    color:black;
+}
+
+.ui.bottom.attached.segment {
+    height: 95.2%;
+}
+
+
+
+.ui.vertical.inverted.menu .menu .item, .ui.vertical.inverted.menu .menu .item a:not(.ui) {
+    color: white;
+}
+
+.item {
+    color: white;
+    font-size: 1em;
+}
+
+.item.sub {
+    color:black;
+}
+
+.configuracao {
+    background-color: #0a9599;
+
+}
+
+
+sui-sidebar-container.ui.bottom.attached.segment sui-sidebar.inverted.vertical div.menu a.item:hover{
+    color: black;
+}

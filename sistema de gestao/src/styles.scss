@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+$cor-azul-padrao:#0b5f96;
+*  {
+    margin:0;
+    padding:0;
+}
+html, body  {
+    height:100%; 
+    width: 100%;
+ }
+
+ .ui.inverted.table tr td {
+     padding: 2px;
+ }
+
+
+.TituloPagSelec{ 
+    font-size: 2.5em;
+    font-weight: 800;
+    text-decoration: underline;
+    text-transform: uppercase;
+}
+
+
+.ui.attached.label, .ui[class*="top attached"].label{
+    background-color: black;
+    color: white;
+}

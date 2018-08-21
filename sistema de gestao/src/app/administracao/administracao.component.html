@@ -1,0 +1,69 @@
+<!-- <app-menu> -->
+<div class="ui container">
+  <div class="ui stackable one column grid">
+    <div class="column">
+      <button class="ui secondary labeled  icon button" data-position="left" [routerLink]="['novo']" suiPopup popupHeader="Adicioonar" popupInverted="true">
+        <i class="right plus circle icon"></i>Gestor</button>
+    </div>
+
+  </div>
+  <form class="form-table">
+  <table class="ui selectable celled inverted blue table">
+    <thead>
+      <tr >
+        <th class="ui center aligned collapsing">
+          Nome
+        </th>
+        <th class="ui center aligned collapsing">
+          Login
+        </th>
+        <th class="ui center aligned collapsing">
+          Cargo
+        </th>
+        <th class="ui center aligned collapsing">
+          Perfil
+        </th>
+        <th class="ui center aligned collapsing">
+          <p>Ações</p>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let gestor of gestores; let i = index" class="ui center aligned collapsing">
+        <td>{{ gestor.nome }}</td>
+        <td>{{ gestor.login }}</td>
+        <td>{{ gestor.cargo }}</td>
+        <td>IMPLEMENTAR NO DB</td>
+        <td class="ui center aligned collapsing">
+          <!-- <a class="ui icon button circular" [routerLink]="['']" suiPopup popupHeader="Visualizar" popupInverted="true">
+            <i class="search icon"></i>
+          </a> -->
+          <a class="mini ui icon button circular" [routerLink]="['edit', gestor.cpf]" suiPopup popupHeader="Editar" popupInverted="true">
+            <i class="pencil alternate icon"></i>
+          </a>
+          <a class="mini ui icon button circular" (click)="removerGestor(gestor.cpf, i)" suiPopup popupHeader="Remover" popupInverted="true">
+            <i class="trash alternate icon"></i>
+          </a>
+        </td>
+      </tr>
+
+    </tbody>
+    <!-- <tfoot>
+      <tr>
+
+         <th colspan="7">
+          <div class="ui right floated pagination menu">
+            <sui-pagination [collectionSize]='totalItens' [pageSize]="numeroPagina" [maxSize]="10" [hasEllipses]="true" [(page)]="select"
+              (click)="page(select)">
+
+            </sui-pagination> 
+          </div>
+        </th> 
+
+      </tr>
+    </tfoot> -->
+  </table>
+  </form>
+
+</div>
+<!-- </app-menu> -->

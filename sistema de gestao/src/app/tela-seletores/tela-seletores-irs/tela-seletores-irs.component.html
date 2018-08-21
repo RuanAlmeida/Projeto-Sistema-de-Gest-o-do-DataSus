@@ -1,0 +1,121 @@
+<div class="ui seven column centered grid">
+    <div class="column"></div>
+    <div class="column"></div>
+    <div class="column"></div>
+
+    <div class="one column centered row">
+        <label class="TituloPagSelec">Indicadores do Sistema IRadar Saúde</label>
+    </div>
+    <div class="column"></div>
+    <div class="column"></div>
+    <div class="column"></div>
+  </div>
+
+
+<div class="ui container segment">
+    <div class="ui top attached label">
+        Filtro de Seleção
+      </div>
+  <form class="ui form">
+
+    <div class="field">
+      <div class="fields">
+
+        <div class="four wide field">
+          <label>Estado</label>
+          <select class="ui dropdown" name="uf" [(ngModel)]="seletorLocal.uf" required #uf>
+            <option value="">Selecione Estado</option>
+            <option *ngFor="let uf of ufs" value="{{uf.uf}}">{{uf.uf}}</option>
+          </select>
+        </div>
+
+        <div class="six wide field">
+          <label>Municipio</label>
+          <select class="ui dropdown" name="municipio" [(ngModel)]="seletorLocal.municipio" required #municipio>
+            <option value="">Selecione municipio</option>
+            <option *ngFor="let municipio of municipios" value="{{municipio.municipio}}">{{municipio.municipio}}</option>
+          </select>
+        </div>
+
+        <div class="six wide field">
+          <label>Bairro</label>
+          <select class="ui dropdown" name="bairro" [(ngModel)]="seletorLocal.bairro" required #bairro>
+            <option value="">Selecione Bairro</option>
+            <option *ngFor="let bairro of bairros" value="{{bairro.bairro}}">{{instituicao.sigla}}</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="fields">
+
+        <div class="eight wide field">
+          <label>Tipo de Instituição</label>
+          <select class="ui dropdown" name="tipInst" [(ngModel)]="seletorLocal.tipInst" required #tipInst>
+            <option value="">Selecione</option>
+            <option *ngFor="let tipInst of tipInsts" value="{{tipInst.tipInst}}">{{tipInst.tipInst}}</option>
+          </select>
+        </div>
+
+        <div class="eight wide field">
+          <label>Instituição de Saúde</label>
+          <select class="ui dropdown" name="instSau" [(ngModel)]="seletorLocal.instSau" required #instSau>
+            <option value="">Selecione</option>
+            <option *ngFor="let instSau of instsSau" value="{{instSau.instSau}}">{{instSau.instSau}}</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+    <div class="field">
+      <div class="fields">
+
+        <div class="eight wide field">
+          <label>Perspectiva Avaliativa</label>
+          <select class="ui dropdown" name="persAva" [(ngModel)]="seletorIRS.persAva" required #persAva>
+            <option value="">Selecione</option>
+            <option *ngFor="let persAva of persAvas" value="{{persAva.persAva}}">{{persAva.persAva}}</option>
+          </select>
+        </div>
+        <div class="eight wide field">
+          <label>Perspectiva Avaliativa</label>
+          <select class="ui dropdown" name="persAva" [(ngModel)]="seletorIRS.persAva" required #persAva>
+            <option value="">Selecione</option>
+            <option *ngFor="let persAva of persAvas" value="{{persAva.persAva}}">{{persAva.persAva}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+        <div class="field">
+          <div class="fields">
+
+        <div class="eight wide field">
+          <label>Abrangência - Visão</label>
+          <select class="ui dropdown" name="abranVi" [(ngModel)]="seletorIRS.abranVi" required #abranVi>
+            <option value="">Selecione</option>
+            <option *ngFor="let abranVi of abranVis" value="{{abranVi.abranVi}}">{{abranVi.abranVi}}</option>
+          </select>
+        </div>
+
+        <div class="eight wide field">
+          <label>Dimensão Ánalitica</label>
+          <select class="ui dropdown" name="dimAn" [(ngModel)]="seletorIRS.dimAn" required #dimAn>
+            <option value="">Selecione</option>
+            <option *ngFor="let dimAn of dimAns" value="{{dimAn.dimAn}}">{{dimAn.dimAn}}</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ui stackable one column grid">
+      <div class="column">
+        <button class="ui right floated linkedin button">Aplicar</button>
+      </div>
+    </div>
+  </form>
+
+</div>

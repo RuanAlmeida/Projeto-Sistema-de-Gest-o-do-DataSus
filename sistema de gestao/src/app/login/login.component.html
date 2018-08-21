@@ -1,0 +1,46 @@
+<!-- Para entender o Leyout, Aplique uma cor para cada classe column, exemplo: column black -->
+<div class="ui stackable padded equal height grid center aligned ">
+  <div class="ui stackable equal height grid center aligned">
+    <div class="one wide  column "></div>
+    <div class="sixteen wide column ">
+
+      <div class="ui middle center aligned grid sixteen wide mobile sixteen wide tablet sixteen wide computer stackable">
+
+        <div class="column">
+
+          <!-- Título -->
+          <h2 class="ui red image header segment stacked secondary">
+            <div class="content pink">
+              ISaúde Radar
+            </div>
+          </h2>
+
+          <form class="ui large form segment stacked secondary" #fLogin="ngForm" (ngSubmit)="fazerLogin(fLogin)">
+            <!-- campo 1 -->
+            <div class="field">
+              <div class="ui right action left icon input">
+                <i class="user icon"></i>
+                <input type="text" placeholder="Login" name="login" ngModel required>
+              </div>
+            </div>
+
+            <!-- Linha Divisoria -->
+            <div class="ui inverted divider"></div>
+            <!-- campo 2 -->
+            <div class="field">
+              <div class="ui right action left icon input">
+                <i class="lock icon"></i>
+                <input type="password" placeholder="Senha" name="senha" ngModel required>
+              </div>
+            </div>
+
+            <!-- Botão de logar -->
+            <input class="ui google plus button" type="submit" value="Entrar">
+
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="one wide column"></div>
+  </div>
+</div>

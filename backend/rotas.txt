@@ -1,0 +1,20 @@
+Rotas ideatecs:
+
+-Trás os dados do sexo: '/dadosBasicos/sexo'
+-Trás os dados da escolaridade: '/dadosBasicos/escolaridade'
+-Trás os estados: '/instituicaoSaude/estados'
+-Trás os municípios: '/instituicaoSaude/municipios'
+-Trás os tipos de instituição de saúde: '/instituicaoSaude/tipoInstituicao'
+-Trás as intituições: '/instituicaoSaude/instituicao'
+-Trás os tipos de atendimento: '/tipoAtendimento/profissional'
+
+Rotas IRadarSaude:
+
+-Trás o gestor passando o cpf na rota: '/gestor/:cpf'
+-Trás o contato passando o cpf na rota: '/contato/:cpf'
+-Trás o endereço passando o cpf na rota: '/endereco/:cpf'
+-Trás os modulos do IQS: '/modulosIQS'
+-Trás os modulos do IRS: '/modulosIRS'
+-Trás as instituicões: '/instituicaoIRS'
+-Trás os perfis: '/perfis'
+

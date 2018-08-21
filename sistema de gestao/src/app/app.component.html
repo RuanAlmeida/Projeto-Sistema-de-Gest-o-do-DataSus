@@ -1,0 +1,29 @@
+    <div class="ui top attached demo menu">
+
+    <a class="item text" (click)="sidebar.toggle()">
+        <i class="sidebar icon"></i>
+        <b>Menu</b>
+    </a>
+    <a class="right item text" [routerLink]="['login']">
+        <b>Sign out</b>
+    </a>
+</div>
+
+<sui-sidebar-container class="ui bottom attached segment">
+    <sui-sidebar class="inverted vertical" #sidebar>
+        <a class="item" (click)="sidebar.close()" [routerLink]="['']">Home</a>
+        <a class="item" suiDropdown >
+            <div class="text">Seletores <i class="dropdown icon"></i></div>
+            <div class="menu" suiDropdownMenu>
+                <a class="item" (click)="sidebar.close()" [routerLink]="['/telaSeletores/iradarsaude']">IRadar Saúde</a>
+                <a class="item" (click)="sidebar.close()" [routerLink]="['/telaSeletores/iqualitysaude']">IQuality Saúde</a>
+            </div>
+        </a>
+        <a class="item" (click)="sidebar.close()" [routerLink]="['/admin']">Administração</a>
+    </sui-sidebar>
+    <sui-sidebar-sibling [isDimmedWhenVisible]="true" class="configuracao">
+        <div class="ui basic segment">
+            <router-outlet></router-outlet>
+        </div>
+    </sui-sidebar-sibling>
+</sui-sidebar-container>
