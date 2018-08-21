@@ -37,7 +37,9 @@ build/Release
 
 # Dependency directories
 node_modules/
+config/
 jspm_packages/
+
 .vscode/
 
 # Arquivos para ignorar
