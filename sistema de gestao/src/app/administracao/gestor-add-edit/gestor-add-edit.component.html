@@ -161,7 +161,7 @@
 
             <div class="ui stackable one column grid">
               <div class="column">
-                <button class="ui left labeled icon button left floated btn-color" (click)="empresaActive = true; backEmpresa(fAddGestor)">
+                <button class="ui left labeled icon button left floated btn-color" (click)="backEmpresa(fAddGestor); empresaActive = true">
                   <i class="angle double left icon"></i> Voltar
                 </button>
                 <button class="ui right labeled icon button right floated btn-color" (click)="salvarGestor(fAddGestor)">
@@ -262,8 +262,8 @@
                 <div class="three wide field">
                   <label for="tipo">tipo de telefone</label>
                   <select class="ui dropdown" [(ngModel)]="contato.tipo" name="tipo">
-                    <option value="fixo">Fixo</option>
-                    <option value="movel">Movel</option>
+                    <option value="F">Fixo</option>
+                    <option value="M">Movel</option>
                   </select>
                 </div>
 

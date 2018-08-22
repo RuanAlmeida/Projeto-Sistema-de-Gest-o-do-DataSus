@@ -181,24 +181,25 @@ export class GestorAddEditComponent implements OnInit {
 
   }
 
-  // getEmpresaById() {
-  //   if (this.paramsById()) {
-  //     this.administracaoService.getEmpresaId(this.paramsById()).subscribe(
-  //       res => {
-  //         this.gestor = res[0];
-  //       },
-  //       erro => {
-  //         console.log(erro);
-  //       }
-  //     );
-  //   }
-  // }
+  getEmpresaById() {
+    if (this.paramsById()) {
+      this.administracaoService.getEmpresaId(this.paramsById()).subscribe(
+        res => {
+          this.gestor = res[0];
+        },
+        erro => {
+          console.log(erro);
+        }
+      );
+    }
+  }
 
   // funções para retornar para página antrior e fazer get
-  // backEmpresa() {
-  //   this.getEmpresaById();
-  //   this.router.navigate([`admin/edit/${this.paramsById()}`]);
-  // }
+
+  backEmpresa() {
+    this.getEmpresaById();
+    this.router.navigate([`admin/edit/${this.paramsById()}`]);
+  }
 
 
   cancelarEmpresa() {
@@ -228,7 +229,7 @@ export class GestorAddEditComponent implements OnInit {
       } else {
         this.cpf = fAddGestor.value.cpf;
         fAddGestor.value.cnpj = this.cnpj;
-        fAddGestor.value.idenderecos_empresas = this.idEnderecosEmpresa;
+        fAddGestor.value.idEnderecos = this.idEnderecosEmpresa;
         console.log(this.cpf);
         this.administracaoService.postGestor(fAddGestor.value).subscribe(
           res => {
@@ -291,12 +292,11 @@ export class GestorAddEditComponent implements OnInit {
   // função para Salvar os contatos do gestor
   salvarContato(fAddContato) {
     if (fAddContato.status !== 'INVALID') {
-      fAddContato.value.cpf = this.cpf;
       fAddContato.value.idGestores = this.idGestores.insertId;
       this.administracaoService.postContato(fAddContato.value).subscribe(
         res => {
           console.log(res);
-          this.getContatoById(this.cpf);
+          this.getContatoById(this.idGestores.insertId);
         },
         erro => {
           console.log(erro);
@@ -309,8 +309,8 @@ export class GestorAddEditComponent implements OnInit {
   }
 
 
-    getContatoById(_cpf) {
-      this.administracaoService.getContatoId(_cpf).subscribe(
+    getContatoById(idGestores) {
+      this.administracaoService.getContatoId(idGestores).subscribe(
         res => {
           console.log(res);
           this.contatosGestor = res;
@@ -431,18 +431,18 @@ export class GestorAddEditComponent implements OnInit {
 
 
 
-  // getGestorById() {
-  //   if (this.paramsById()) {
-  //     this.administracaoService.getGestorId(this.paramsById()).subscribe(
-  //       res => {
-  //         this.gestor = res[0];
-  //       },
-  //       erro => {
-  //         console.log(erro);
-  //       }
-  //     );
-  //   }
-  // }
+  getGestorById() {
+    if (this.paramsById()) {
+      this.administracaoService.getGestorId(this.paramsById()).subscribe(
+        res => {
+          this.gestor = res[0];
+        },
+        erro => {
+          console.log(erro);
+        }
+      );
+    }
+  }
 
   // getGestorEndereco() {
   //   if (this.paramsById()) {
@@ -505,6 +505,7 @@ export class GestorAddEditComponent implements OnInit {
   }
 
   // ----- inicio Funções da aba instituições -----
+
   getInstituicao() {
     // this.administracaoService.getSelecioneInt()
     //   .subscribe(dados => {
@@ -569,7 +570,6 @@ export class GestorAddEditComponent implements OnInit {
     if (campo) {
       this.administracaoService.getAtualizaUf(campo.id_uf)
         .subscribe(dados => {
-
           this.municipios = dados;
           this.bairrosAbaInst = dados;
           this.tipoInstsAbaInst = dados;
