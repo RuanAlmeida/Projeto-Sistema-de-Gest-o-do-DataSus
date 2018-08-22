@@ -30,7 +30,7 @@ module.exports = function (application) {
 
     
       // -------------  CONTATO DO GESTOR ---------------
-    application.get('/contato/:cpf', function (req, res) {
+    application.get('/contato/:idGestores', function (req, res) {
         application.app.controllers.gestores.listarContato(application, req, res);
     });
     application.post('/contato', function (req, res) {

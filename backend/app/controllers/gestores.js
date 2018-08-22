@@ -21,7 +21,7 @@ module.exports.cadastrarEmpresa = function (application, req, res) {
     var conexaoPool = application.config.conexaoBD();
     var model = new application.app.models.gestoresDAO(conexaoPool);
 
-    model.cadastrarEmpresa(empresa ,function (error, result) {
+    model.cadastrarEmpresa(empresa, function (error, result) {
 
         if (error) {
             console.log(error);
@@ -232,19 +232,38 @@ module.exports.atualizaEndereco = function (application, req, res) {
 
 module.exports.listarContato = function (application, req, res) {
 
+    var finalContatos = [];
     var params = req.params;
+    console.log(params)
 
     var conexaoMySQL = application.config.conexaoBD();
     var model = new application.app.models.gestoresDAO(conexaoMySQL);
 
-    model.listaContato(params, function (error, result) {
+    model.listaContatoTelefone(params, function (error1, resultTelefone) {
+        model.listaContatoEmail(params, function (error2, resultEmail) {
 
-        if (error) {
-            console.log(error);
-            res.status(400).send(error);
-        }
-        res.status(200).send(result);
+            if (resultTelefone.length === resultEmail.length) {
+                for (let i = 0; i < resultTelefone.length; i++) {
+                    finalContatos[i] = {
+                        telefone: resultTelefone[i].telefone,
+                        tipo: resultTelefone[i].tipo,
+                        email: resultEmail[i].email,
+                        idemail  : resultEmail[i].idemail,
+                        idtelefone : resultTelefone[i].idtelefones
+                    }
+                }
+            }
+            if (error2 || error1) {
+                console.log(error2 || error1);
+                res.status(400).send(error2 || error1);
+            }
+            res.status(200).send(finalContatos);
+        });
     });
+
+
+
+
 }
 
 module.exports.cadastrarContato = function (application, req, res) {
@@ -302,7 +321,7 @@ module.exports.cadastrarInstituicao = function (application, req, res) {
                 }
                 res.status(200).send(existente);
             });
-           
+
         } else {
             model.cadastrarInstituicao(instituicao, !resultTipoInst[0], function (error, result) {
                 if (error) {

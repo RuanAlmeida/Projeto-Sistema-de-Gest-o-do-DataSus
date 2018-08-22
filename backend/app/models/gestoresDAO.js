@@ -29,9 +29,9 @@ GestoresDAO.prototype.removeGestor = function (params, callback) {
 
 GestoresDAO.prototype.cadastrarEmpresa = function (empresa, callback) {
     this._connection.query(`
-    INSERT INTO sistemagestaodb.enderecos_empresas (endereco, numero, complemento, cep, idibge) VALUES ('${empresa.endereco}', '${empresa.numero}', '${empresa.complemento}', '${empresa.cep}', '${empresa.idibge}');
-    SET @idenderecos_empresas = LAST_INSERT_ID();
-    INSERT INTO sistemagestaodb.empresas_trabalho (cnpj, razao_social, num_cnes, idenderecos_empresas) VALUES ('${empresa.cnpj}', '${empresa.razao_social}', '${empresa.num_cnes}', @idenderecos_empresas);`
+    INSERT INTO sistemagestaodb.enderecos (endereco, numero, complemento, cep, idibge) VALUES ('${empresa.endereco}', '${empresa.numero}', '${empresa.complemento}', '${empresa.cep}', '${empresa.idibge}');
+    SET @idEnderecos = LAST_INSERT_ID();
+    INSERT INTO sistemagestaodb.empresas_trabalho (cnpj, razao_social, num_cnes, idEnderecos) VALUES ('${empresa.cnpj}', '${empresa.razao_social}', '${empresa.num_cnes}', @idEnderecos);`
         , callback);
 }
 
@@ -39,7 +39,7 @@ GestoresDAO.prototype.cadastrarEmpresa = function (empresa, callback) {
 
 GestoresDAO.prototype.cadastrarGestor = function (gestor, callback) {
     console.log(gestor)
-    this._connection.query(`INSERT INTO sistemagestaodb.gestores(cpf, nome, login, password, cargo, cnpj, idenderecos_empresas) VALUES (${gestor.cpf}, '${gestor.nome}', '${gestor.login}', '${gestor.password}', '${gestor.cargo}', ${gestor.cnpj} , ${gestor.idenderecos_empresas});`, callback);
+    this._connection.query(`INSERT INTO sistemagestaodb.gestores(cpf, nome, login, password, cargo, cnpj, idEnderecos) VALUES (${gestor.cpf}, '${gestor.nome}', '${gestor.login}', '${gestor.password}', '${gestor.cargo}', ${gestor.cnpj} , ${gestor.idEnderecos});`, callback);
 }
 
 
@@ -47,35 +47,41 @@ GestoresDAO.prototype.cadastrarGestor = function (gestor, callback) {
 //--------------GESTOR - ABA ENDEREÇO  -------------
 
 GestoresDAO.prototype.listaEndereco = function (params, callback) {
-    this._connection.query(`SELECT * FROM sistemagestaodb.enderecos_empresas where cpf = '${params.cpf}'`, callback);
+    this._connection.query(`SELECT * FROM sistemagestaodb.enderecos where cpf = '${params.cpf}'`, callback);
 }
 
 GestoresDAO.prototype.novoEndereco = function (endereco, callback) {
     console.log(endereco)
-    this._connection.query(`  INSERT INTO sistemagestaodb.enderecos_empresas (endereco, numero, complemento, cep, idibge) VALUES ('${endereco.endereco}', '${endereco.numero}', '${endereco.complemento}', '${endereco.cep}', '${endereco.idibge}');`, callback);
+    this._connection.query(`  INSERT INTO sistemagestaodb.enderecos (endereco, numero, complemento, cep, idibge) VALUES ('${endereco.endereco}', '${endereco.numero}', '${endereco.complemento}', '${endereco.cep}', '${endereco.idibge}');`, callback);
 }
 
 GestoresDAO.prototype.atualizaEndereco = function (params, endereco, callback) {
-    this._connection.query(`UPDATE sistemagestaodb.enderecos_empresas SET endereco = '${endereco.endereco}', numero = '${endereco.numero}', bairro = '${endereco.bairro}', complemento = '${endereco.complemento}', uf = '${endereco.uf}', municipio = '${endereco.municipio}', cep = '${endereco.cep}' WHERE cpf = '${params.cpf}';`, callback);
+    this._connection.query(`UPDATE sistemagestaodb.enderecos SET endereco = '${endereco.endereco}', numero = '${endereco.numero}', bairro = '${endereco.bairro}', complemento = '${endereco.complemento}', uf = '${endereco.uf}', municipio = '${endereco.municipio}', cep = '${endereco.cep}' WHERE cpf = '${params.cpf}';`, callback);
 }
 
 
 //--------------GESTOR - ABA CONTATO  -------------
-GestoresDAO.prototype.listaContato = function (params, callback) {
+GestoresDAO.prototype.listaContatoTelefone = function (params, callback) {
     this._connection.query(`
-    SELECT DISTINCT idEmail, sistemagestaodb.telefones.telefone, sistemagestaodb.telefones.tipo, sistemagestaodb.emails.email
-    FROM sistemagestaodb.telefones
-    INNER JOIN sistemagestaodb.gestores ON sistemagestaodb.telefones.idGestores = sistemagestaodb.gestores.idGestores
-    INNER JOIN sistemagestaodb.emails ON sistemagestaodb.emails.cpf =  sistemagestaodb.gestores.cpf
-    where sistemagestaodb.emails.cpf = ${params.cpf};`, 
-    callback);
+    SELECT telefone, tipo, idtelefones FROM gestores
+    INNER JOIN telefones ON telefones.idGestores = gestores.idGestores
+    where gestores.idGestores = ${params.idGestores};`,
+        callback);
+}
+
+GestoresDAO.prototype.listaContatoEmail = function (params, callback) {
+    this._connection.query(`
+    SELECT email, idemail FROM gestores
+    INNER JOIN emails ON emails.idGestores = gestores.idGestores
+    where emails.idGestores = ${params.idGestores};`,
+        callback);
 }
 
 GestoresDAO.prototype.cadastrarContato = function (contato, callback) {
     this._connection.query(`
-    INSERT INTO sistemagestaodb.emails (email, cpf) VALUES ('${contato.email}', '${contato.cpf}' );
-    INSERT INTO sistemagestaodb.telefones (telefone, tipo, idGestores) VALUES ('${contato.telefone}','${contato.tipo}', '${contato.idGestores}' );`, 
-    callback);
+    INSERT INTO sistemagestaodb.emails (email, idGestores) VALUES ('${contato.email}', '${contato.idGestores}' );
+    INSERT INTO sistemagestaodb.telefones (telefone, tipo, idGestores) VALUES ('${contato.telefone}','${contato.tipo}', '${contato.idGestores}' );`,
+        callback);
 }
 
 GestoresDAO.prototype.atualizaContato = function (params, contato, callback) {
