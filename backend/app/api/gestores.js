@@ -20,7 +20,7 @@ module.exports = function(app){
     api.cadastrarEmpresa = (req, res) => {
         const empresa = req.body,
         connection = app.conexao.mysqlConnectionDB(),
-        gestoresDAO = new app.api.gestoresDAO(connection);
+        gestoresDAO = new app.infra.gestoresDAO(connection);
 
         gestoresDAO.cadastrarEmpresa(empresa, (error, result) => {
             if (error) {
@@ -35,7 +35,7 @@ module.exports = function(app){
     //Controle de gestores, retorna todos os gestores
     api.gestores = (req, res) => {
         const connection = app.conexao.mysqlConnectionDB(),
-        gestoresDAO = new app.api.gestoresDAO(connection);
+        gestoresDAO = new app.infra.gestoresDAO(connection);
 
         gestoresDAO.listaGestores((error, result) => {
             if (error) {

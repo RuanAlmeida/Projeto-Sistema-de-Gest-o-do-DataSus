@@ -15,7 +15,7 @@ module.exports = (app) => {
         .get(enderecos.listaEnderecos);
 
     // ------------------ ROTAS DE GENÉRICAS ---------------
-    app.route('/municipios')
+    app.route('/municipiosIRS')
         .get(gestores.municipios);
 
     // ------------------ ROTAS DE EMPRESA ---------------
@@ -121,7 +121,7 @@ module.exports = (app) => {
         .get(modulosIRS.modulosIRS);
 
     // rostas de ufs
-    app.route('/municipios')
+    app.route('/municipiosLocal')
         .get(municipios.municipios);
 
     app.route('/ufs')

@@ -142,6 +142,6 @@ GestoresDAO.prototype.cadastrarInstituicao = function (contato, condicao, callba
 
 }
 
-module.exports = function () {
+module.exports = () => {
     return GestoresDAO;
 }
