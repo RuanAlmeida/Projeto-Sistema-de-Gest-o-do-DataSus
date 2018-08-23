@@ -1,7 +1,6 @@
-var app = require('./config/server');
+const http = require('http'),
+      app = require('./config/express');
 
-// Configuração da porta
-const port = 8080
-app.listen(port, function () {
-    console.log(`Server run on port ${port}`);
+http.createServer(app).listen(8080, function() {
+    console.log(`Server run on port ${this.address().port}`);
 });

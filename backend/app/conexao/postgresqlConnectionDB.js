@@ -6,10 +6,10 @@ var connPG = function(){
         user: '',	
         database: '',	
         password: '',	
-        port: 	
+        port: ''
     };	
     return pool = new pg.Pool(config);	
 }	
-module.exports = function () {	
+module.exports = () => {	
     return connPG;	
 } 

@@ -11,11 +11,10 @@ const connectMYSQL = () => {
 		user: '',
 		password: '',
 		database: '',
-		port: ,
-		multipleStatements: 
+		port: '',
+		multipleStatements: true
 	});
 };
-
 
 //Retorna a conexão.
 module.exports = () => {

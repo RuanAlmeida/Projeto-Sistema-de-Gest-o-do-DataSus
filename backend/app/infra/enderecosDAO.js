@@ -6,6 +6,6 @@ enderecoDAO.prototype.listaEnderecoById = function (cpf, callback) {
     this._connection.query(`SELECT * FROM "ISaudeRadar".endereco WHERE cpf = '${cpf}'`, callback);
 }
 
-module.exports = function () {
+module.exports = () => {
     return enderecoDAO;
 }
