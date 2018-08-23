@@ -37,7 +37,7 @@ build/Release
 
 # Dependency directories
 node_modules/
-config/
+conexao/
 jspm_packages/
 
 .vscode/
