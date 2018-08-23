@@ -37,13 +37,11 @@ build/Release
 
 # Dependency directories
 node_modules/
-config/
 jspm_packages/
-
+backend/app/conexao/
 .vscode/
 
 # Arquivos para ignorar
-app.api.ts
 
 
 # TypeScript v1 declaration files
