@@ -3,7 +3,7 @@
 
     //Controle de estado, caso sucesso, retorna o estado do esquema dbgeral.tb_uf
     api.estado = (req, res) => {
-        const connection = app.conexao.mysqlConnectionDB(),
+        const connection = app.conexao.postgresqlConnectionDB(),
         instituicaoSaudeDAO = new app.infra.instituicaoSaudeDAO(connection);
     
         instituicaoSaudeDAO.getEstado((error, result) => {
@@ -17,7 +17,7 @@
     }
 
     api.municipio = (req, res) => {
-        const connection = app.conexao.mysqlConnectionDB(),
+        const connection = app.conexao.postgresqlConnectionDB(),
         instituicaoSaudeDAO = new app.infra.instituicaoSaudeDAO(connection);
     
         instituicaoSaudeDAO.getMunicipios((error, result) => {
@@ -32,7 +32,7 @@
 
     //Controle de bairros, caso sucesso, retorna o estado do esquema dfdwp..bairros
     api.bairros = (req, res) => {
-        const connection = app.conexao.mysqlConnectionDB(),
+        const connection = app.conexao.postgresqlConnectionDB(),
         instituicaoSaudeDAO = new app.infra.instituicaoSaudeDAO(connection),
         idMunicipio = req.params.id;
     
@@ -48,7 +48,7 @@
 
     //Controle de tipo de insituição, caso sucesso, retorna o estado do esquema dfdwp.td_tipo_unidade
     api.tipoInstituicao = (req, res) => {
-        const connection = app.conexao.mysqlConnectionDB(),
+        const connection = app.conexao.postgresqlConnectionDB(),
         instituicaoSaudeDAO = new app.infra.instituicaoSaudeDAO(connection);
 
         instituicaoSaudeDAO.getTipoUnidade((error, result) => {
@@ -63,7 +63,7 @@
 
     //Controle de insituição, caso sucesso, retorna o estado do esquema dfdwp.td_instituicao
     api.instituicao = (req, res) => {
-        const connection = app.conexao.mysqlConnectionDB(),
+        const connection = app.conexao.postgresqlConnectionDB(),
         instituicaoSaudeDAO = new app.infra.instituicaoSaudeDAO(connection),
         { municipio } = req.params, 
         { bairro } = req.params, 

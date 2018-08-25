@@ -24,7 +24,7 @@ export class AppService {
         this.ufsIQS = res;
       }
     );
-    this.http.get(`${ROTAS_API}municipios`)
+    this.http.get(`${ROTAS_API}municipiosLocal`)
     .subscribe(
       res => this.municipiosLocal = res
     );

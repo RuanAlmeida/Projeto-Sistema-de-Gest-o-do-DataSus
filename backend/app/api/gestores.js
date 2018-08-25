@@ -195,6 +195,8 @@ module.exports = function(app){
     
         gestoresDAO.listaContatoTelefone(params, (error1, resultTelefone) => {
             gestoresDAO.listaContatoEmail(params, (error2, resultEmail) => {
+                console.log('telefone', resultTelefone);
+                console.log('email', resultEmail);
                 if (resultTelefone.length === resultEmail.length) {
                     for (let i = 0; i < resultTelefone.length; i++) {
                         finalContatos[i] = {
