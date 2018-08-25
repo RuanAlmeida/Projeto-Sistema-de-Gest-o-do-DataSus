@@ -16,7 +16,7 @@ module.exports = (app) => {
 
     // ------------------ ROTAS DE GENÉRICAS ---------------
     app.route('/municipiosIRS')
-        .get(gestores.municipios);
+        .get(instituicaoSaude.municipio);
 
     // ------------------ ROTAS DE EMPRESA ---------------
     app.route('/empresa')
@@ -55,7 +55,7 @@ module.exports = (app) => {
 
     // ROTAS DE ESTADO E MUNICIPIO DOS GESTORES
     app.route('/estados')
-        .get(gestores.estados);
+        .get(instituicaoSaude.estado);
 
     // ROTAS DE ENDERECO
     app.route('/endereco/:cpf')

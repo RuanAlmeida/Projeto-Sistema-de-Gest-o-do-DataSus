@@ -63,17 +63,15 @@ GestoresDAO.prototype.atualizaEndereco = function (params, endereco, callback) {
 //--------------GESTOR - ABA CONTATO  -------------
 GestoresDAO.prototype.listaContatoTelefone = function (params, callback) {
     this._connection.query(`
-    SELECT telefone, tipo, idtelefones FROM gestores
-    INNER JOIN telefones ON telefones.idGestores = gestores.idGestores
-    where gestores.idGestores = ${params.idGestores};`,
+    SELECT telefone, tipo, idtelefones FROM telefones
+    where idGestores = ${params.idGestores};`,
         callback);
 }
 
 GestoresDAO.prototype.listaContatoEmail = function (params, callback) {
     this._connection.query(`
-    SELECT email, idemail FROM gestores
-    INNER JOIN emails ON emails.idGestores = gestores.idGestores
-    where emails.idGestores = ${params.idGestores};`,
+    SELECT email, idemail FROM emails
+    where idGestores = ${params.idGestores};`,
         callback);
 }
 

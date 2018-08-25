@@ -155,7 +155,7 @@ export class AdministracaoService {
   */
   getSelecioneMunicipios() {
     return this.http
-      .get(`${ROTAS_API}municipios`);
+      .get(`${ROTAS_API}municipiosLocal`);
   }
 
   //   /*
