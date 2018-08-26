@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-$cor-azul-padrao:#0b5f96;
+$cor-verde-padrao:#7ab194;
 *  {
     margin:0;
     padding:0;
@@ -25,4 +25,14 @@ html, body  {
 .ui.attached.label, .ui[class*="top attached"].label{
     background-color: black;
     color: white;
+}
+
+.ui.labeled.icon.button{
+    background-color: $cor-verde-padrao;
+    color: white;
+    }
+
+.ui.selectable.celled.table thead th{
+background-color: $cor-verde-padrao;
+color: white;
 }
