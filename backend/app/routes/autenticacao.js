@@ -1,7 +1,11 @@
-module.exports = function (application) {
-    application.post('/autentica', function (req, res) {
-        application.app.controllers.autenticar.autentica(application, req, res);
-    });
+module.exports = function(app){
+    var autenticar = app.api.autenticar;
 
-    // application.use('/irs/*', autenticar.verificaToken);
+    app.route('/autentica')
+        .post(autenticar.autentica);
+
+    app.use('/iradarsaude/*', autenticar.verificaToken);
+
+    // app.route('/iradarsaude/deslogar')
+    //     .post(autenticar.desloga);
 }

@@ -2,11 +2,10 @@
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
+import { API } from '../app.api';
 
 @Injectable()
 export class AuthenticationService {
-
-  emitirUsuario = new EventEmitter();
 
     constructor(
       private http: HttpClient,
@@ -14,17 +13,17 @@ export class AuthenticationService {
     ) { }
 
     login(user) {
-      console.log(user);
-        return this.http.post<any>(`http://localhost:8080/autentica`, user)
+      this.logout();
+        return this.http.post<any>(`${API.AUTH_API}autentica`, user)
             .map(res => {
-
               if (res) {
-                localStorage.setItem('currentUser', res);
-                // localStorage.setItem('currentCode', res.cod_usuario_cript);
-                // localStorage.setItem('currentUserCode', res.cod_usuario);
+                localStorage.setItem('currentUser', res.token);
+                localStorage.setItem('currentCode', res.idGestores_cript);
+                localStorage.setItem('currentUserCode', res.idGestores);
               }
-              this.emitirUsuario.emit(res);
-            });
+            },
+          erro => console.error(erro)
+          );
     }
 
 getToken() {
@@ -47,7 +46,6 @@ logout() {
   localStorage.removeItem('currentUser');
   localStorage.removeItem('currentCode');
   localStorage.removeItem('currentUserCode');
-  this.router.navigate(['login']);
 }
 
 isLogado() {

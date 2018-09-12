@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { ROTAS_API } from '../app.api';
+import { API } from '../app.api';
 
 @Injectable()
 export class AdministracaoService {
@@ -13,7 +13,7 @@ export class AdministracaoService {
   // requisições HTTP geréricas
   getMunicipios() {
     return this.http
-      .get(`${ROTAS_API}municipios`);
+      .get(`${API.ROTAS_API}municipios`);
   }
 
   // requisições HTTP Empresa
@@ -22,60 +22,60 @@ export class AdministracaoService {
 
   getEmpresaId(cnpj) {
     return this.http
-      .get(`${ROTAS_API}empresa/${cnpj}`);
+      .get(`${API.ROTAS_API}empresa/${cnpj}`);
   }
   putEmpresa(empresa, cpf) {
     return this.http
-      .put(`${ROTAS_API}empresa/${cpf}`, empresa);
+      .put(`${API.ROTAS_API}empresa/${cpf}`, empresa);
   }
   postEmpresa(empresa) {
     return this.http
-      .post(`${ROTAS_API}empresa`, empresa);
+      .post(`${API.ROTAS_API}empresa`, empresa);
   }
 
   // requisições HTTP Gestor
   getGestorInstituicao() {
     return this.http
-      .get(`${ROTAS_API}gestorInstituicao`);
+      .get(`${API.ROTAS_API}gestorInstituicao`);
   }
   getGestores() {
     return this.http
-      .get(`${ROTAS_API}gestores`);
+      .get(`${API.ROTAS_API}gestores`);
   }
 
   getGestorId(cpf) {
     return this.http
-      .get(`${ROTAS_API}gestor/${cpf}`);
+      .get(`${API.ROTAS_API}gestor/${cpf}`);
   }
 
   postGestor(gestor) {
     return this.http
-      .post(`${ROTAS_API}gestorNovo`, gestor);
+      .post(`${API.ROTAS_API}gestorNovo`, gestor);
   }
 
   putGestor(gestor, cpf) {
     return this.http
-      .put(`${ROTAS_API}gestor/${cpf}`, gestor);
+      .put(`${API.ROTAS_API}gestor/${cpf}`, gestor);
   }
 
   deleteGestor(cpf) {
     return this.http
-      .delete(`${ROTAS_API}gestor/${cpf}`);
+      .delete(`${API.ROTAS_API}gestor/${cpf}`);
   }
 
   // requisições HTTP Endereços
   getEnderecoId(cpf) {
     return this.http
-      .get(`${ROTAS_API}endereco/${cpf}`);
+      .get(`${API.ROTAS_API}endereco/${cpf}`);
   }
   postEndereco(endereco) {
     return this.http
-      .post(`${ROTAS_API}endereco`, endereco);
+      .post(`${API.ROTAS_API}endereco`, endereco);
   }
 
   putEndereco(endereco, cpf) {
     return this.http
-      .put(`${ROTAS_API}endereco/${cpf}`, endereco);
+      .put(`${API.ROTAS_API}endereco/${cpf}`, endereco);
   }
 
 
@@ -83,34 +83,34 @@ export class AdministracaoService {
   // requisições HTTP Contato
   getContatoId(cpf) {
     return this.http
-      .get(`${ROTAS_API}contato/${cpf}`);
+      .get(`${API.ROTAS_API}contato/${cpf}`);
   }
 
   postContato(contato) {
     return this.http
-      .post(`${ROTAS_API}contato`, contato);
+      .post(`${API.ROTAS_API}contato`, contato);
   }
 
   putContato(contato, cpf) {
     return this.http
-      .put(`${ROTAS_API}contato/${cpf}`, contato);
+      .put(`${API.ROTAS_API}contato/${cpf}`, contato);
   }
 
 
   // requisicoes HTTP de instituição
   getInstituicaoId(cpf) {
     return this.http
-      .get(`${ROTAS_API}instituicao/${cpf}`);
+      .get(`${API.ROTAS_API}instituicao/${cpf}`);
   }
 
   postInstituicao(instituicao) {
     return this.http
-      .post(`${ROTAS_API}instituicao`, instituicao);
+      .post(`${API.ROTAS_API}instituicao`, instituicao);
   }
 
   putInstituicao(instituicao, cpf) {
     return this.http
-      .post(`${ROTAS_API}instituicao/${cpf}`, instituicao);
+      .post(`${API.ROTAS_API}instituicao/${cpf}`, instituicao);
   }
 
 
@@ -118,17 +118,17 @@ export class AdministracaoService {
   // requisicoes HTTP dos Módulos e visões
   getVisao() {
     return this.http
-      .get(`${ROTAS_API}visao`);
+      .get(`${API.ROTAS_API}visao`);
 
   }
   getModulosIQS() {
     return this.http
-      .get(`${ROTAS_API}modulosiqs`);
+      .get(`${API.ROTAS_API}modulosiqs`);
 
   }
   getModulosIRS() {
     return this.http
-      .get(`${ROTAS_API}modulosirs`);
+      .get(`${API.ROTAS_API}modulosirs`);
 
   }
 
@@ -136,7 +136,7 @@ export class AdministracaoService {
 
   getEstado() {
     return this.http
-      .get(`${ROTAS_API}estados`);
+      .get(`${API.ROTAS_API}estados`);
   }
 
 
@@ -147,7 +147,7 @@ export class AdministracaoService {
   */
   getSelecioneEstado() {
     return this.http
-      .get(`${ROTAS_API}instituicaoSaude/estados`);
+      .get(`${API.ROTAS_API}instituicaoSaude/estados`);
   }
 
   /*
@@ -155,7 +155,7 @@ export class AdministracaoService {
   */
   getSelecioneMunicipios() {
     return this.http
-      .get(`${ROTAS_API}municipiosLocal`);
+      .get(`${API.ROTAS_API}municipiosLocal`);
   }
 
   //   /*
@@ -163,7 +163,7 @@ export class AdministracaoService {
   //   */
   getSelecioneBairro(idMunicipio) {
     return this.http
-      .get(`${ROTAS_API}instituicaoSaude/bairros/${idMunicipio}`);
+      .get(`${API.ROTAS_API}instituicaoSaude/bairros/${idMunicipio}`);
   }
 
   /*
@@ -171,7 +171,7 @@ export class AdministracaoService {
   */
   getSelecioneTipoInt() {
     return this.http
-      .get(`${ROTAS_API}instituicaoSaude/tipoInstituicao`);
+      .get(`${API.ROTAS_API}instituicaoSaude/tipoInstituicao`);
   }
 
   /*
@@ -180,7 +180,7 @@ export class AdministracaoService {
 
   getSelecioneInt(municipio, bairro, tipo) {
     return this.http
-      .get(`${ROTAS_API}instituicaoSaude/instituicao/${municipio}/${bairro}/${tipo}`);
+      .get(`${API.ROTAS_API}instituicaoSaude/instituicao/${municipio}/${bairro}/${tipo}`);
   }
 
   /*
@@ -188,36 +188,36 @@ export class AdministracaoService {
   //   */
   getAtualizaUf(ufId) {
     return this.http
-      .get(`${ROTAS_API}instituicaoSaude/estadosAtualizados/${ufId}`);
+      .get(`${API.ROTAS_API}instituicaoSaude/estadosAtualizados/${ufId}`);
   }
 
   //   * Protocolo HTTP passando municipioId para retornar todas instituições da mesma
   getAtualizaMunicipio(municipioId) {
     return this.http
-      .get(`${ROTAS_API}instituicaoSaude/municipiosAtualizados/${municipioId}`);
+      .get(`${API.ROTAS_API}instituicaoSaude/municipiosAtualizados/${municipioId}`);
   }
 
   //   * Protocolo HTTP passando tipoId da idMunicipio para retornar todas instituições da mesma
   getAtualizaTipo(tipoId, idMunicipio) {
     if (idMunicipio) {
       return this.http
-        .get(`${ROTAS_API}instituicaoSaude/tipoInstituicaoAtualizada/${tipoId}/${idMunicipio}`);
+        .get(`${API.ROTAS_API}instituicaoSaude/tipoInstituicaoAtualizada/${tipoId}/${idMunicipio}`);
     } else {
       return this.http
-        .get(`${ROTAS_API}instituicaoSaude/tipoInstituicaoAtualizada/${tipoId}`);
+        .get(`${API.ROTAS_API}instituicaoSaude/tipoInstituicaoAtualizada/${tipoId}`);
     }
   }
 
   //   * Protocolo HTTP passando instituicaoId  para retornar todas instituições da mesma
   getAtualizaInstituicao(instituicaoId) {
     return this.http
-      .get(`${ROTAS_API}instituicaoSaude/instituicaoAtualizada/${instituicaoId}`);
+      .get(`${API.ROTAS_API}instituicaoSaude/instituicaoAtualizada/${instituicaoId}`);
   }
   //   * Protocolo HTTP passando instituicaoId  para retornar todas instituições da mesma
   getAtualizaBairro(bairroIds) {
     const nullo = '(null)';
     return this.http
-      .get(`${ROTAS_API}instituicaoSaude/bairroAtualizado/${bairroIds.id_uf ||
+      .get(`${API.ROTAS_API}instituicaoSaude/bairroAtualizado/${bairroIds.id_uf ||
         nullo}/${bairroIds.id_municipio ||
         nullo}/${bairroIds.no_bairro ||
         nullo}/${bairroIds.id_tipo_unidade ||

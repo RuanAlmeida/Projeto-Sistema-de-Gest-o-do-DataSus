@@ -3,7 +3,7 @@ import { Headers, Http, Response } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
 
 import { SeletoresIQS, SeletoresIRS, SeletoresLocal } from '../tela-seletores/model/index';
-import { ROTAS_API } from '../app.api';
+import { API } from '../app.api';
 
 
 @Injectable()
@@ -26,7 +26,7 @@ export class TelaSeletoresService {
   */
   getSelecioneEstado() {
     return this.http
-      .get(`${ROTAS_API}instituicaoSaude/estados`);
+      .get(`${API.ROTAS_API}instituicaoSaude/estados`);
   }
 
   /*
@@ -34,7 +34,7 @@ export class TelaSeletoresService {
   */
   getSelecioneMunicipios() {
     return this.http
-      .get<SeletoresLocal>(`${ROTAS_API}instituicaoSaude/municipios`);
+      .get<SeletoresLocal>(`${API.ROTAS_API}instituicaoSaude/municipios`);
   }
 
   //   /*
@@ -42,7 +42,7 @@ export class TelaSeletoresService {
   //   */
   getSelecioneBairro() {
     return this.http
-      .get(`${ROTAS_API}instituicaoSaude/bairros`);
+      .get(`${API.ROTAS_API}instituicaoSaude/bairros`);
   }
 
 
@@ -51,7 +51,7 @@ export class TelaSeletoresService {
   */
   getSelecioneTipoInt() {
     return this.http
-      .get(`${ROTAS_API}instituicaoSaude/tipoInstituicao`)
+      .get(`${API.ROTAS_API}instituicaoSaude/tipoInstituicao`)
   }
 
   /*
@@ -60,22 +60,22 @@ export class TelaSeletoresService {
 
   getSelecioneInt() {
     return this.http
-      .get<SeletoresLocal>(`${ROTAS_API}instituicaoSaude/instituicao`);
+      .get<SeletoresLocal>(`${API.ROTAS_API}instituicaoSaude/instituicao`);
   }
 
   getPersAvas() {
     return this.http
-      .get(`${ROTAS_API}perspectivaAvaliativa`);
+      .get(`${API.ROTAS_API}perspectivaAvaliativa`);
   }
 
   getAbranVis() {
     return this.http
-      .get(`${ROTAS_API}abrangenciaVisoes`);
+      .get(`${API.ROTAS_API}abrangenciaVisoes`);
   }
 
   getDimAns() {
     return this.http
-      .get(`${ROTAS_API}dimenssaoAnalitica`);
+      .get(`${API.ROTAS_API}dimenssaoAnalitica`);
   }
 
 
@@ -86,36 +86,36 @@ export class TelaSeletoresService {
   //   */
   getAtualizaUf(ufId) {
     return this.http
-      .get<SeletoresLocal>(`${ROTAS_API}instituicaoSaude/estadosAtualizados/${ufId}`)
+      .get<SeletoresLocal>(`${API.ROTAS_API}instituicaoSaude/estadosAtualizados/${ufId}`)
   }
 
   //   * Protocolo HTTP passando municipioId para retornar todas instituições da mesma 
   getAtualizaMunicipio(municipioId) {
     return this.http
-      .get<SeletoresLocal>(`${ROTAS_API}instituicaoSaude/municipiosAtualizados/${municipioId}`);
+      .get<SeletoresLocal>(`${API.ROTAS_API}instituicaoSaude/municipiosAtualizados/${municipioId}`);
   }
 
   //   * Protocolo HTTP passando tipoId da idMunicipio para retornar todas instituições da mesma 
   getAtualizaTipo(tipoId, idMunicipio) {
     if (idMunicipio) {
       return this.http
-        .get<SeletoresLocal>(`${ROTAS_API}instituicaoSaude/tipoInstituicaoAtualizada/${tipoId}/${idMunicipio}`);
+        .get<SeletoresLocal>(`${API.ROTAS_API}instituicaoSaude/tipoInstituicaoAtualizada/${tipoId}/${idMunicipio}`);
     } else {
       return this.http
-        .get<SeletoresLocal>(`${ROTAS_API}instituicaoSaude/tipoInstituicaoAtualizada/${tipoId}`);
+        .get<SeletoresLocal>(`${API.ROTAS_API}instituicaoSaude/tipoInstituicaoAtualizada/${tipoId}`);
     }
   }
 
   //   * Protocolo HTTP passando instituicaoId  para retornar todas instituições da mesma 
   getAtualizaInstituicao(instituicaoId) {
     return this.http
-      .get<SeletoresLocal>(`${ROTAS_API}instituicaoSaude/instituicaoAtualizada/${instituicaoId}`);
+      .get<SeletoresLocal>(`${API.ROTAS_API}instituicaoSaude/instituicaoAtualizada/${instituicaoId}`);
   }
   //   * Protocolo HTTP passando instituicaoId  para retornar todas instituições da mesma 
   getAtualizaBairro(bairroIds) {
     let nullo = '(null)'
     return this.http
-      .get<SeletoresLocal>(`${ROTAS_API}instituicaoSaude/bairroAtualizado/${bairroIds.id_uf || nullo}/${bairroIds.id_municipio || nullo}/${bairroIds.no_bairro || nullo}/${bairroIds.id_tipo_unidade || nullo}/${bairroIds.id_unidade || nullo}`);
+      .get<SeletoresLocal>(`${API.ROTAS_API}instituicaoSaude/bairroAtualizado/${bairroIds.id_uf || nullo}/${bairroIds.id_municipio || nullo}/${bairroIds.no_bairro || nullo}/${bairroIds.id_tipo_unidade || nullo}/${bairroIds.id_unidade || nullo}`);
   }
 
 }

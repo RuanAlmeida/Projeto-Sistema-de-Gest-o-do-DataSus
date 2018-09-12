@@ -61,19 +61,19 @@ GestoresDAO.prototype.atualizaEndereco = function (params, endereco, callback) {
 
 
 //--------------GESTOR - ABA CONTATO  -------------
-GestoresDAO.prototype.listaContatoTelefone = function (params, callback) {
+GestoresDAO.prototype.listaContato= function (params, callback) {
     this._connection.query(`
     SELECT telefone, tipo, idtelefones FROM telefones
     where idGestores = ${params.idGestores};`,
         callback);
 }
 
-GestoresDAO.prototype.listaContatoEmail = function (params, callback) {
-    this._connection.query(`
-    SELECT email, idemail FROM emails
-    where idGestores = ${params.idGestores};`,
-        callback);
-}
+// GestoresDAO.prototype.listaContatoEmail = function (params, callback) {
+//     this._connection.query(`
+//     SELECT email, idemail FROM emails
+//     where idGestores = ${params.idGestores};`,
+//         callback);
+// }
 
 GestoresDAO.prototype.cadastrarContato = function (contato, callback) {
     this._connection.query(`
@@ -81,6 +81,7 @@ GestoresDAO.prototype.cadastrarContato = function (contato, callback) {
     INSERT INTO sistemagestaodb.telefones (telefone, tipo, idGestores) VALUES ('${contato.telefone}','${contato.tipo}', '${contato.idGestores}' );`,
         callback);
 }
+
 
 GestoresDAO.prototype.atualizaContato = function (params, contato, callback) {
     this._connection.query(`UPDATE sistemagestaodb.contatos SET email = '${contato.email}', telefone = '${contato.telefone}', telefone2 = '${contato.telefone2}' WHERE cpf = '${params.cpf}';`, callback);
