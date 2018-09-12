@@ -3,26 +3,28 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse, Htt
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import { AuthenticationService } from './authentication.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
   constructor(
-    public authenticationService: AuthenticationService
+    public authenticationService: AuthenticationService,
+    private router: Router
   ) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         const currentUser = this.authenticationService.getToken();
-        // const currentUserCode = this.authenticationService.getUserCode();
-        // const currentCode = this.authenticationService.getCode();
+        const currentUserCode = this.authenticationService.getUserCode();
+        const currentCode = this.authenticationService.getCode();
 
         if (currentUser) {
         request = request.clone({
             setHeaders: {
             'x-access-token': currentUser,
-            // 'cod_usuario': currentUserCode,
-            // 'cod_usuario_cript': currentCode
+            'id-gestores': currentUserCode,
+            'id-gestores-cript': currentCode
           }
         });
       }
@@ -34,6 +36,7 @@ export class JwtInterceptor implements HttpInterceptor {
                if (err instanceof HttpErrorResponse) {
                 if (err.status === 401 || err.status === 403) {
                   this.authenticationService.logout();
+                  this.router.navigate(['login']);
                 }
                }
              });

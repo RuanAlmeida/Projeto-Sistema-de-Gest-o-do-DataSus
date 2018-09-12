@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ROTAS_API } from './app.api';
+import { API } from './app.api';
 
 @Injectable()
 export class AppService {
@@ -14,21 +14,21 @@ export class AppService {
   constructor(
     private http: HttpClient
   ) {
-    this.http.get(`${ROTAS_API}instituicaoSaude/municipios`)
+    this.http.get(`${API.ROTAS_API}instituicaoSaude/municipios`)
     .subscribe(
       res => this.municipiosIQS = res
     );
-    this.http.get(`${ROTAS_API}instituicaoSaude/estados`)
+    this.http.get(`${API.ROTAS_API}instituicaoSaude/estados`)
     .subscribe(
       res => {
         this.ufsIQS = res;
       }
     );
-    this.http.get(`${ROTAS_API}municipiosLocal`)
+    this.http.get(`${API.ROTAS_API}municipiosLocal`)
     .subscribe(
       res => this.municipiosLocal = res
     );
-    this.http.get(`${ROTAS_API}ufs`)
+    this.http.get(`${API.ROTAS_API}ufs`)
     .subscribe(
       res => {
         this.ufsLocal = res;
@@ -50,7 +50,6 @@ export class AppService {
   }
 
   getMunicipiosLocal(uf) {
-    console.log(uf)
     return this.municipiosLocal.filter(e => e.uf === uf);
   }
 

@@ -1,6 +1,7 @@
 import { AuthenticationService } from './../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '../../../node_modules/@angular/router';
+import { Router, ActivatedRoute } from '../../../node_modules/@angular/router';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -10,20 +11,28 @@ import { Router } from '../../../node_modules/@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+    returnUrl: string;
+
     constructor(
         private authenticationService: AuthenticationService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute
     ) { }
 
-    fazerLogin(form) {
-        this.authenticationService.login(form.value)
+    fazerLogin(fLogin: NgForm) {
+        this.authenticationService.login(fLogin.value)
         .subscribe(
-            res => this.router.navigate(['home'])
+            res => {
+                this.router.navigate([this.returnUrl]);
+                console.log(res);
+            },
+            erro => console.error(erro)
         )
     }
 
     ngOnInit() {
+        // get return url from route parameters or default to '/'
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
-
 
 }

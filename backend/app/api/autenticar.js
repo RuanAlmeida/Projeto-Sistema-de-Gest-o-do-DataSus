@@ -1,39 +1,63 @@
-var jwt = require('jsonwebtoken');
+var jwt = require('jsonwebtoken'),
+    passwordHash = require('password-hash');
 
 module.exports = function(app){
     let api = {};
 
     //Valida o Login do Usuário e cria o Token de acesso. 
-    api.autentica = (app, req, res) => {
-    	var connection = app.config.conexaoBD();
-        const gestoresDAO = new app.app.models.gestoresDAO(connection);
+    api.autentica = (req, res) => {
+        console.log('back', req.body);
+    	const knex = app.conexao.conexaoBDKnex();
         var user = req.body;
-        console.log('usuario', user);
 
-        gestoresDAO.listaGestores((erro, resultado) => {
-            if (erro){
+        knex.select('*').from('gestores').where('login', user.login)
+            .then(resultado => {
+                knex.destroy();
+                if(resultado[0]){
+                        if(resultado[0].password === user.password){
+                            var token = jwt.sign({login: resultado[0].login}, app.get('secret'), { expiresIn: 43200 }); //28800s = 8H
+                            res.set({'x-access-token': token});
+                            
+                            idGestores_cript = passwordHash.generate(resultado[0].idGestores.toString(), {saltLength: 100});
+
+                            console.log(`O usuário ${resultado[0].nome} acabou de logar.`);
+                            res.status(200).json({token, 'idGestores': resultado[0].idGestores, 'nome': resultado[0].nome, idGestores_cript});
+
+                        } else { res.status(401).send('Senha incorreta'); }
+
+                } else { res.status(401).send('Este login não existe.'); }
+
+            })
+            .catch(erro => {
                 console.log(erro);
-                res.sendStatus(500);
-            }else{
-                var usuario = resultado.find((usuario) => usuario.login == user.login && usuario.password == user.senha);
-
-                if(!usuario){
-                    res.sendStatus(401);
-                }else{
-                    var token = jwt.sign({login: usuario.login}, app.get('secret'), { expiresIn: 950400 }); //28800 = 8H
-                    console.log(token);
-                    res.set({'x-access-token': token});
-                    res.status(200).json(token);
-                }
-            }
-        });
-        connection.end();
+                knex.destroy();
+                res.status(500).send(app.api.erroPadrao());
+            });
     };
 
+    //Exibe o nome do usuário que deslogou.
+    // api.desloga = (req, res) => {
+    //     const knex = app.conexao.conexaoBDKnex();
+    //     const cod_usuario = req.body.cod_usuario;
+
+    //     knex.select('nome').from('gestores').where('idGestores', idGestores)
+    //         .then(resultado => {
+    //             console.log(`O usuário ${resultado[0].nome} acabou de deslogar.`);
+    //             res.status(200).end();
+    //         })
+    //         .catch(erro => {
+    //             console.log(erro);
+    //             knex.destroy();
+    //             res.status(500).send(app.api.erroPadrao());
+    //         });
+    // }
 
     //Verifica o Token de acesso do Usuário.
-    api.verificaToken = (app, req, res, next) => {
-        var token = req.headers['x-access-token'];
+    api.verificaToken = (req, res, next) => {
+        let token = req.headers['x-access-token'];
+        let idGestores = req.headers['id-gestores']
+        let idGestores_cript = req.headers['id-gestores-cript'];
+        console.log(token, idGestores, idGestores_cript);
         
         if(req.headers['access-control-request-headers'])
         return next();
@@ -43,11 +67,15 @@ module.exports = function(app){
                 if(erro){
                     return res.sendStatus(401);
                 }else{
-                    req.usuario = decoded;
-                    next();
+                    if(passwordHash.verify(idGestores, idGestores_cript)){
+                        req.usuario = decoded;
+                        next();
+                    }else{
+                        return res.sendStatus(401);
+                    }
                 }
             });
-        }else{
+        } else {
             return res.sendStatus(401);
         }
         

@@ -11,124 +11,124 @@ module.exports = (app) => {
 
     //*************** Rotas em endereco ***************//
     //Enderecos
-    app.route('/enderecoIQS/:cpf')
+    app.route('/iradarsaude/iradarsaude/enderecoIQS/:cpf')
         .get(enderecos.listaEnderecos);
 
     // ------------------ ROTAS DE GENÉRICAS ---------------
-    app.route('/municipiosIRS')
+    app.route('/iradarsaude/municipiosIRS')
         .get(instituicaoSaude.municipio);
 
     // ------------------ ROTAS DE EMPRESA ---------------
-    app.route('/empresa')
+    app.route('/iradarsaude/empresa')
         .post(gestores.cadastrarEmpresa);
 
     // ------------------ ROTAS DE GESTOR ---------------
-    app.route('/gestores')
+    app.route('/iradarsaude/gestores')
         .get(gestores.gestores);
 
-    app.route('/gestor/:cpf')
+    app.route('/iradarsaude/gestor/:cpf')
         .get(gestores.gestor);
 
     // ------------------ CONTATO DO GESTOR ---------------
-    app.route('/contato/:idGestores')
+    app.route('/iradarsaude/contato/:idGestores')
         .get(gestores.listarContato);
 
-    app.route('/contato')
+    app.route('/iradarsaude/contato')
         .post(gestores.cadastrarContato);
 
-    app.route('/contato/:cpf')
+    app.route('/iradarsaude/contato/:cpf')
         .put(gestores.atualizaContato);
 
     // rostas para listar todas as instituicoes dos gestores
-    app.route('/gestorInstituicao')
+    app.route('/iradarsaude/gestorInstituicao')
         .get(gestores.instituicoesGestor);
 
     // inserir novo gestor
-    app.route('/gestorNovo')
+    app.route('/iradarsaude/gestorNovo')
         .post(gestores.novoGestor);
 
     // atualizar novo gestor
     // remove gestor
-    app.route('/gestor/:cpf')
+    app.route('/iradarsaude/gestor/:cpf')
         .put(gestores.updateGestor)
         .delete(gestores.deleteGestor);
 
     // ROTAS DE ESTADO E MUNICIPIO DOS GESTORES
-    app.route('/estados')
+    app.route('/iradarsaude/estados')
         .get(instituicaoSaude.estado);
 
     // ROTAS DE ENDERECO
-    app.route('/endereco/:cpf')
+    app.route('/iradarsaude/endereco/:cpf')
         .get(gestores.endereco)
         .put(gestores.atualizaEndereco);
 
-    app.route('/endereco')
+    app.route('/iradarsaude/endereco')
         .post(gestores.novoEndereco);
 
-    app.route('/instituicao')
+    app.route('/iradarsaude/instituicao')
         .post(gestores.cadastrarInstituicao);
 
     // rostas de instituicao
-    app.route('/institucaoIRS')
+    app.route('/iradarsaude/institucaoIRS')
         .get(instituicaoIRS.intiuicaoIRS);
 
     // Rota para requisição dos dados da pagina Instituição de saude
-    app.route('/instituicaoSaude/estados')
+    app.route('/iradarsaude/instituicaoSaude/estados')
         .get(instituicaoSaude.estado);
 
-    app.route('/instituicaoSaude/municipios')
+    app.route('/iradarsaude/instituicaoSaude/municipios')
         .get(instituicaoSaude.municipio);
 
-    app.route('/instituicaoSaude/tipoInstituicao')
+    app.route('/iradarsaude/instituicaoSaude/tipoInstituicao')
         .get(instituicaoSaude.tipoInstituicao);
 
-    app.route('/instituicaoSaude/instituicao/:municipio/:bairro/:tipo')
+    app.route('/iradarsaude/instituicaoSaude/instituicao/:municipio/:bairro/:tipo')
         .get(instituicaoSaude.instituicao);
 
-    app.route('/instituicaoSaude/bairros/:id')
+    app.route('/iradarsaude/instituicaoSaude/bairros/:id')
         .get(instituicaoSaude.bairros);
         
-    app.route('/instituicaoSaude/estadosAtualizados/:ufId')
+    app.route('/iradarsaude/instituicaoSaude/estadosAtualizados/:ufId')
         .get(instituicaoSaude.estadosAtualizados);
 
-    app.route('/instituicaoSaude/municipiosAtualizados/:municipioId')
+    app.route('/iradarsaude/instituicaoSaude/municipiosAtualizados/:municipioId')
         .get(instituicaoSaude.municipiosAtualizados);
 
-    app.route('/instituicaoSaude/tipoInstituicaoAtualizada/:tipoId')
+    app.route('/iradarsaude/instituicaoSaude/tipoInstituicaoAtualizada/:tipoId')
         .get(instituicaoSaude.tipoInstituicaoAtualizada);
 
-    app.route('/instituicaoSaude/tipoInstituicaoAtualizada/:tipoId/:idMunicipio')
+    app.route('/iradarsaude/instituicaoSaude/tipoInstituicaoAtualizada/:tipoId/:idMunicipio')
         .get(instituicaoSaude.tipoInstituicaoAtualizadaUf);
 
-    app.route('/instituicaoSaude/instituicaoAtualizada/:instituicaoId')
+    app.route('/iradarsaude/instituicaoSaude/instituicaoAtualizada/:instituicaoId')
         .get(instituicaoSaude.instituicaoAtualizada);
 
     app.route(`/instituicaoSaude/bairroAtualizado/:id_uf/:id_municipio/:no_bairro/:id_tipo_unidade/:id_unidade`)
         .get(instituicaoSaude.bairroAtualizado);
 
     // rostas de modulosIQS
-    app.route('/perspectivaAvaliativa')
+    app.route('/iradarsaude/perspectivaAvaliativa')
         .get(modulosIQS.perspectivaAvaliativa);
 
-    app.route('/abrangenciaVisoes')
+    app.route('/iradarsaude/abrangenciaVisoes')
         .get(modulosIQS.abrangenciaVisoes);
 
-    app.route('/dimenssaoAnalitica')
+    app.route('/iradarsaude/dimenssaoAnalitica')
         .get(modulosIQS.dimenssaoAnalitica);
 
     // rostas de modulosIRS   
-    app.route('/modulosIRS')
+    app.route('/iradarsaude/modulosIRS')
         .get(modulosIRS.modulosIRS);
 
     // rostas de ufs
-    app.route('/municipiosLocal')
+    app.route('/iradarsaude/municipiosLocal')
         .get(municipios.municipios);
 
-    app.route('/ufs')
+    app.route('/iradarsaude/ufs')
         .get(municipios.ufs);
 
     // rostas de perfis
-    app.route('/perfis')
+    app.route('/iradarsaude/perfis')
         .get(perfil.perfil);
 
 }
