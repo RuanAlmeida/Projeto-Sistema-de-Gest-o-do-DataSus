@@ -1,4 +1,5 @@
 $cor-verde-padrao:#7ab194;
+$cor-verde-claro: #cce2ff;
 html, body {
   height: 100%;
 }
@@ -21,7 +22,7 @@ html, body {
 
 
 
-.ui.red.image.header.segment.stacked.secondary, .ui.large.form.segment.stacked.secondary {
+.ui.header.segment.stacked.secondary {
   background-color: $cor-verde-padrao;
 }
 
@@ -29,6 +30,18 @@ html, body {
 color: white;
 }
 
-.ui.stackable.padded.equal.height.grid.center.aligned {
-  background-image: url("../../assets/te2.gif");
+button.ui.button {
+  background-color: $cor-verde-padrao;
+  color: white;
+}
+
+button.ui.button:hover {
+  background-color: $cor-verde-claro;
+  color: $cor-verde-padrao;
+}
+
+div.field div.ui.right.action.left.icon.input input[type=text], 
+div.field div.ui.right.action.left.icon.input  input[type=password] {
+  border: solid 1px $cor-verde-padrao !important;
+  border-radius: 5px !important;
 }

@@ -360,7 +360,6 @@
           <form class="ui form" #fAddInstituicao="ngForm" (ngSubmit)="adicionarInstituicao(fAddInstituicao)">
             <div class="field">
               <div class="fields">
-
                 <div class="four wide field">
                   <label>Estado</label>
                   <select class="ui dropdown" name="uf" [(ngModel)]="instituicao.uf" (ngModelChange)="selectUf($event)" #uf required>

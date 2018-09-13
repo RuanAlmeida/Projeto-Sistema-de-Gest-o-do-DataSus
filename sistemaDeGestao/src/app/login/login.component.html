@@ -9,7 +9,7 @@
         <div class="column">
 
           <!-- Título -->
-          <h2 class="ui red image header segment stacked secondary">
+          <h2 class="ui header segment stacked secondary">
             <div class="content pink">
               ISaúde Radar
             </div>
@@ -35,7 +35,7 @@
             </div>
 
             <!-- Botão de logar -->
-            <input class="ui google plus button" type="submit" value="Entrar">
+            <button class="ui button" [ngClass]="{loading: logando}"  type="submit">Entrar</button>
 
           </form>
         </div>

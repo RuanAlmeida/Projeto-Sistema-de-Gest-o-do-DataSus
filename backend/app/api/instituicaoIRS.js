@@ -2,7 +2,7 @@ module.exports = function(app){
     let api = {};
 
 //Controle de do moduloIQS, tras todos os modulosIQS do banco
-    api.intiuicaoIRS = (req, res) => {
+    api.listaInstituicoes = (req, res) => {
         const connection = app.conexao.mysqlConnectionDB(),
         instituicaoIRSDAO = new app.infra.instituicaoIRSDAO(connection);
 

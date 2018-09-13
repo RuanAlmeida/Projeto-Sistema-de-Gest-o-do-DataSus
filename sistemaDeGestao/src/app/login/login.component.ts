@@ -12,6 +12,7 @@ import { NgForm } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
     returnUrl: string;
+    logando: boolean;
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -20,13 +21,17 @@ export class LoginComponent implements OnInit {
     ) { }
 
     fazerLogin(fLogin: NgForm) {
+        this.logando = true;
         this.authenticationService.login(fLogin.value)
         .subscribe(
             res => {
                 this.router.navigate([this.returnUrl]);
-                console.log(res);
+                this.logando = false;
             },
-            erro => console.error(erro)
+            erro => {
+                console.error(erro);
+                this.logando = false;
+            }
         )
     }
 
