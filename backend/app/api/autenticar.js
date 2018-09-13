@@ -6,7 +6,6 @@ module.exports = function(app){
 
     //Valida o Login do Usuário e cria o Token de acesso. 
     api.autentica = (req, res) => {
-        console.log('back', req.body);
     	const knex = app.conexao.conexaoBDKnex();
         var user = req.body;
 
@@ -57,7 +56,6 @@ module.exports = function(app){
         let token = req.headers['x-access-token'];
         let idGestores = req.headers['id-gestores']
         let idGestores_cript = req.headers['id-gestores-cript'];
-        console.log(token, idGestores, idGestores_cript);
         
         if(req.headers['access-control-request-headers'])
         return next();

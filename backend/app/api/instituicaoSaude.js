@@ -178,5 +178,29 @@
         connection.end();
     }
 
+
+    api.listaInstParams = (req, res) => {
+        // const connection = app.conexao.mysqlConnectionDB(),
+        // instituicaoSaudeDAO = new app.infra.instituicaoSaudeDAO(connection);
+        const { estado, municipio, bairro, tipo_inst } = req.query;
+        console.log(estado, municipio, bairro, tipo_inst);
+
+        /*{ estado: '23',
+        municipio: '230428',
+        bairro: 'LAGOINHA',
+        tipo_inst: '2' }*/
+
+        res.sendStatus(200);
+    
+        // instituicaoSaudeDAO.getBairroAtualizado(bairroIds, (error, result) => {
+        //     if (error) {
+        //         console.log(error);
+        //         res.status(400).send(error);
+        //     }
+        //     res.status(200).json(result.rows);
+        // });
+        // connection.end();
+    }
+
     return api;
 };

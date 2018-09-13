@@ -33,4 +33,8 @@ export class AppComponent  {
       }
     })
   }
+
+  isLogado() {
+    return this.authenticationService.isLogado();
+  }
 }

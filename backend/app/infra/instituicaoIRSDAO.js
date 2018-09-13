@@ -3,7 +3,7 @@ function InstituicaoIRSDAO(connection) {
 }
 
 InstituicaoIRSDAO.prototype.listaInstituicoes = function (callback) {
-    this._connection.query('SELECT * FROM "ISaudeRadar".instituicoes', callback);
+    this._connection.query('SELECT * FROM instituicoes_saude', callback);
 }
 
 module.exports = function () {

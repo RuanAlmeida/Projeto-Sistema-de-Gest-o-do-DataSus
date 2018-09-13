@@ -69,8 +69,8 @@ module.exports = (app) => {
         .post(gestores.cadastrarInstituicao);
 
     // rostas de instituicao
-    app.route('/iradarsaude/institucaoIRS')
-        .get(instituicaoIRS.intiuicaoIRS);
+    app.route('/iradarsaude/instituicoesIRS')
+        .get(instituicaoIRS.listaInstituicoes);
 
     // Rota para requisição dos dados da pagina Instituição de saude
     app.route('/iradarsaude/instituicaoSaude/estados')
@@ -130,5 +130,8 @@ module.exports = (app) => {
     // rostas de perfis
     app.route('/iradarsaude/perfis')
         .get(perfil.perfil);
+
+    app.route('/iradarsaude/listaInstParams')
+        .get(instituicaoSaude.listaInstParams);
 
 }

@@ -12,6 +12,7 @@ import { AppService } from './app.service';
 import { FormsModule } from '../../node_modules/@angular/forms';
 import { JwtInterceptor } from './services/jwt.interceptor';
 import { AuthenticationService } from './services/authentication.service';
+import { AuthGuard } from './guards/auth.guard.service';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { AuthenticationService } from './services/authentication.service';
       useClass: JwtInterceptor,
       multi: true
     },
-    AuthenticationService
+    AuthenticationService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

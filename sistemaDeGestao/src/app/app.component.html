@@ -1,4 +1,4 @@
-    <div class="ui top attached demo menu">
+    <div class="ui top attached demo menu" *ngIf="isLogado()">
 
     <a class="item text" (click)="sidebar.toggle()">
         <i class="sidebar icon"></i>
