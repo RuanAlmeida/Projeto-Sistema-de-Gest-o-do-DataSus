@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { AdministracaoService } from '../administracao.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ApiServicesMsg } from '../../api-service/api-services-msg';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-gestor-add-edit',
@@ -19,7 +21,8 @@ export class GestorAddEditComponent implements OnInit {
   perfisForm = false;
   DetalhePerfil = false;
 
-  ufs: any;
+  ufs: any = [];
+  allMunicipios: any = [];
 
   params: any;
   paramsByPost: any;
@@ -69,23 +72,26 @@ export class GestorAddEditComponent implements OnInit {
   };
   contatosGestor: any;
 
-  // declarações da aba instituições
-  instituicao = {
-    id_uf: '',
-    id_municipio: '',
-    idInstituicao_saude: '',
-    id_tipo_unidade: '',
-    no_bairro: ''
+  //////declarações da aba instituições////////
+
+  //Loadings
+  loadingEstados: boolean;
+  loadingMunicipios: boolean;
+  loadingBairros: boolean;
+  loadingTipoInsts: boolean;
+  loadingInsts: boolean;
+
+  instituicao: any = {
+    uf: '',
+    municipio: '',
+    bairro: '',
+    tipInst: '',
+    idInstituicao_saude: ''
   };
 
-  instituicoesGestor: any;
-  saveDados = {
-    getInstituicao: {},
-    getTipoInst: {},
-    getUfs: {},
-    getMunicipio: {}
-  };
+  instsGestor: any = [];
 
+  /////////////////////////////////// /////////
 
   perfil = {
     idPerfil: ''
@@ -115,7 +121,7 @@ export class GestorAddEditComponent implements OnInit {
 
   municipiosAbaInst: any;
   bairros: Object;
-  tipInsts: Object;
+  tipInsts: any;
   instsSau: Object;
   cnpj: any;
   cpf: any;
@@ -125,12 +131,15 @@ export class GestorAddEditComponent implements OnInit {
   constructor(
     private appService: AppService,
     private administracaoService: AdministracaoService,
+    private apiServicesMsg: ApiServicesMsg,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
   }
 
-
+  verifyId() {
+    return !((this.params !== undefined) && (this.params.id));
+  }
 
   ativarFuncionalidade(varialvel) {
     if (varialvel === 'existente') {
@@ -325,74 +334,6 @@ export class GestorAddEditComponent implements OnInit {
   // -----------  FIM ABA CONTATOS ------------------
 
 
-
-  // // função para Salvar os contatos do gestor
-  // salvarInstituicao(fAddInstituicao) {
-    //   if (fAddInstituicao.status !== 'INVALID') {
-  //     fAddInstituicao = this.correcaoInstituicao();
-  //     // if (this.putPermitido) {
-  //     //   this.putPermitido = false;
-  //     //   this.administracaoService.putInstituicao(fAddInstituicao.value, this.paramsById()).subscribe(
-    //     //     res => {
-  //     //       this.perfilActive = true;
-  //     //     },
-  //     //     erro => {
-    //     //       console.log(erro);
-    //     //     }
-    //     //   );
-  //     // } else {
-  //     this.administracaoService.postInstituicao(fAddInstituicao).subscribe(
-  //       res => {
-  //         console.log(res);
-  //         // this.instituicoesGestor.unshift(fAddInstituicao);
-  //         // console.log()
-  //       },
-  //       erro => {
-  //         console.log(erro);
-  //       }
-  //     );
-  //     // }
-  //   } else {
-  //     console.log('campos inválidos');
-  //   }
-  // }
-
-
-  // salvarPerfil(fAddPerfilNovo, salvarPerfil) {
-  //   if (this.controleSelePerfilExistent) {
-  //     this.formLocal = salvarPerfil;
-  //   } else {
-  //     this.formLocal = fAddPerfilNovo;
-  //   }
-
-  //   if (this.formLocal.status !== 'INVALID') {
-  //     if (this.controleSelePerfilExistent) {
-  //       this.administracaoService.putInstituicao(this.formLocal.value, this.paramsById()).subscribe(
-  //         res => {
-  //           this.perfilActive = true;
-  //         },
-  //         erro => {
-  //           console.log(erro);
-  //         }
-  //       );
-  //     } else {
-  //       this.administracaoService.postInstituicao(this.formLocal.value).subscribe(
-  //         res => {
-  //           this.paramsByPost = res;
-  //           this.perfilActive = true;
-  //         },
-  //         erro => {
-  //           console.log(erro);
-  //         }
-  //       );
-  //     }
-  //   } else {
-  //     console.log('campos inválidos');
-  //   }
-
-  // }
-
-
   // getVisao() {
   //   this.administracaoService.getVisao().subscribe(
   //     res => {
@@ -468,22 +409,6 @@ export class GestorAddEditComponent implements OnInit {
   //   );
   // }
 
-
-
-  // getGestorInstituicaoById() {
-  //   if (this.paramsById()) {
-  //     this.administracaoService.getInstituicaoId(this.paramsById()).subscribe(
-  //       res => {
-  //         // this.instActive = true;
-  //         this.instituicoesGestor = res;
-  //       },
-  //       erro => {
-  //         console.log(erro);
-  //       }
-  //     );
-  //   }
-  // }
-
   // getEstado() {
   //   this.administracaoService.getEstado().subscribe(
   //     res => {
@@ -515,67 +440,104 @@ export class GestorAddEditComponent implements OnInit {
   }
 
   getTipoInst() {
-    this.administracaoService.getSelecioneTipoInt().subscribe(dados => {
-      this.tipInsts = dados;
-      this.tipoInstsAbaInst = dados;
-      this.saveDados.getTipoInst = dados;
-    });
+    this.loadingTipoInsts = true;
+    this.administracaoService.getSelecioneTipoInt().subscribe((dados: any) => {
+      this.tipInsts = dados.rows;
+      this.tipoInstsAbaInst = dados.rows;
+      this.loadingTipoInsts = false;
+     },
+     erro => {
+       console.error(erro);
+       this.loadingTipoInsts = false;
+     }
+    );
+  }
+
+  getInstsIQS() {
+    this.loadingInsts = true;
+    this.administracaoService.getInstsIQS().subscribe((dados: any) => {
+      this.instsSau = dados.rows;
+      this.loadingInsts = false;
+    }, 
+    erro => {
+      console.error(erro);
+      this.loadingInsts = false;
+    }
+    );
   }
 
   getBairros(idMunicipio) {
+    this.instituicao.bairro = '';
+    this.loadingBairros = true;
     this.administracaoService.getSelecioneBairro(idMunicipio).subscribe(dados => {
-      console.log(dados);
       this.bairros = dados;
-      this.bairrosAbaInst = dados;
-      this.tipoInstsAbaInst = dados;
-      this.instituicoesAbaInst = dados;
-    });
+      this.loadingBairros = false;
+      // this.bairrosAbaInst = dados;
+      // this.tipoInstsAbaInst = dados;
+      // this.instituicoesAbaInst = dados;
+    },
+    erro => {
+      console.error(erro);
+      this.loadingBairros = false;
+    }
+      );
   }
 
   getUfs() {
-    this.ufs = this.appService.getUfsIQS();
+    this.loadingEstados = true;
+    this.appService.getUfsIQS()
+    .subscribe(
+      res => {
+        this.ufs = res;
+        this.loadingEstados = false;
+      },
+      erro => {
+        console.error(erro);
+        this.loadingEstados = false;
+      }
+      );
+  }
+
+  getAllMunicipios() {
+    this.appService.getMunicipiosIQS()
+    .subscribe(res => this.allMunicipios = res);
   }
 
   getUfsLocal() {
     this.ufsLocal = this.appService.getUfsLocal();
-    console.log(this.ufsLocal);
   }
 
   selectUf(codUf) {
-    this.municipios = this.appService.getMunicipiosIQS(codUf);
+    this.instituicao.bairro = '';
+    this.instituicao.municipio = '';
+    this.loadingMunicipios = true;
+    this.municipios = this.allMunicipios.filter(elem => Number(elem.id_uf) === Number(codUf) );
+    this.loadingMunicipios = false;
   }
 
   selectUfLocal(codUf) {
     this.municipiosLocal = this.appService.getMunicipiosLocal(codUf);
-    console.log(this.municipiosLocal);
   }
 
   getMunicipio() {
     this.administracaoService.getSelecioneMunicipios().subscribe(dados => {
       this.municipiosAbaInst = dados;
-      this.saveDados.getMunicipio = dados;
     });
   }
 
   getInsts(form) {
+    this.loadingInsts = true;
     this.administracaoService.getSelecioneInt(form.municipio, form.bairro, form.tipInst)
       .subscribe(
-        res => this.instsSau = res
+        res => {
+          this.instsSau = res;
+          this.loadingInsts = false;
+        },
+        erro => {
+          console.error(erro);
+          this.loadingInsts = false;
+        }
       );
-  }
-
-
-  atualizaUf(campo) {
-    this.resetarCampos();
-    if (campo) {
-      this.administracaoService.getAtualizaUf(campo.id_uf)
-        .subscribe(dados => {
-          this.municipios = dados;
-          this.bairrosAbaInst = dados;
-          this.tipoInstsAbaInst = dados;
-          this.instituicoesAbaInst = dados;
-        });
-    }
   }
 
   atualizaMunicipio(campo) {
@@ -634,22 +596,6 @@ export class GestorAddEditComponent implements OnInit {
         });
     }
   }
-
-  resetarCampos() {
-    this.instituicao = {
-      id_uf: '',
-      id_municipio: '',
-      idInstituicao_saude: '',
-      id_tipo_unidade: '',
-      no_bairro: ''
-    };
-
-    this.instituicoesAbaInst = this.saveDados.getInstituicao;
-    this.tipoInstsAbaInst = this.saveDados.getTipoInst;
-    this.ufsAbaInst = this.saveDados.getUfs;
-    this.municipios = this.saveDados.getMunicipio;
-  }
-
 
   getAbaInstituicoes() {
     // this.getInstituicao();
@@ -712,17 +658,158 @@ export class GestorAddEditComponent implements OnInit {
     this.DetalhePerfil = false;
   }
 
-  adicionarInstituicao(form) {
+  selectInst(value) {
+    let uf = this.allMunicipios.find(elem => elem.id_municipio === value.id_municipio).id_uf;
+    this.selectUf(uf);
+    this.getBairros(value.id_municipio);
+    this.instituicao.tipInst = value.id_tipo_unidade;
+    this.instituicao.uf = uf;
+    this.instituicao.municipio = value.id_municipio;
+    this.instituicao.bairro = value.no_bairro;
+  }
+
+  getInstsIQSByParams() {
+    let form = this.instituicao;
+    delete form.idInstituicao_saude;
     console.log(form);
+    this.loadingInsts = true;
+    this.administracaoService.getInstsIQSByParams(form)
+    .subscribe(
+      (res: any) => {
+        console.log(res.rows);
+        this.instsSau = res.rows;
+        this.loadingInsts = false;
+      },
+      erro => {
+        console.error(erro);
+        this.loadingInsts = false;
+      }
+    );
+  }
+
+  getCodIbge(idIQSUf, idIQSMunicipio) {
+    let siglaIQSUf = '',
+    nameIQSMunicipio = '',
+    municipiosLocal = [],
+    codIbge = '';
+    siglaIQSUf = this.ufs.find(e => Number(e.id_uf) === Number(idIQSUf)).uf_sigla;
+    municipiosLocal = this.appService.getMunicipiosLocal(siglaIQSUf);
+    nameIQSMunicipio = this.allMunicipios.find(elem => elem.id_municipio === idIQSMunicipio).no_mun_completo;
+    codIbge = municipiosLocal.find(elemento => elemento.descricao === nameIQSMunicipio).idibge;
+    return codIbge;
+  }
+
+  getTipoInstName(codTipInst) {
+    return this.tipInsts.find(ele => ele.id_tipo_unidade === codTipInst).ds_tipo_unidade;
+  }
+  
+  resetarCamposInstituicaoGestor() {
+    this.instituicao = {
+      uf: '',
+      municipio: '',
+      bairro: '',
+      tipInst: '',
+      idInstituicao_saude: ''
+    };
+  }
+
+  adicionarInstituicao(form) {
+    let formulario = {
+      instGestor : {
+        cpf: this.params.id,
+        idInstituicao_saude:  form.value.idInstituicao_saude.id_unidade
+      },
+      bairro: {
+        idibge: this.getCodIbge(form.value.uf, form.value.municipio),
+        descricao: form.value.idInstituicao_saude.no_bairro
+      },
+      tipInst: {
+        idTipo_Instituicao: form.value.idInstituicao_saude.id_tipo_unidade,
+        descricao: this.getTipoInstName(form.value.idInstituicao_saude.id_tipo_unidade)
+      },
+      instSaude: {
+        idInstituicao_saude:  form.value.idInstituicao_saude.id_unidade,
+        descricao:  form.value.idInstituicao_saude.no_fantasia,
+        idTipo_Instituicao:  form.value.idInstituicao_saude.id_tipo_unidade,
+        idbairro: null
+      }
+    }
+    this.administracaoService.postBairro(formulario.bairro)
+    .subscribe(
+      res => {
+        formulario.instSaude.idbairro = res;
+        this.administracaoService.postTipoInstituicao(formulario.tipInst)
+        .subscribe(
+          res => {
+            this.administracaoService.postInstituicaoSaude(formulario.instSaude)
+            .subscribe(
+              res => {
+                this.administracaoService.postInstituicaoGestor(formulario.instGestor)
+                .subscribe(
+                  res => {
+                    this.apiServicesMsg.setMsg('success', 'Instituição cadastrada com sucesso.', 3000);
+                    this.getInstituicoesGestor(this.params.id);
+                    this.resetarCamposInstituicaoGestor();
+                  },
+                  erro => Swal('Erro', `${erro.error}`, 'error')
+                )
+              },
+              erro => Swal('Erro', `${erro.error}`, 'error')
+            )
+          },
+          erro => Swal('Erro', `${erro.error}`, 'error')
+        )
+      },
+      erro => Swal('Erro', `${erro.error}`, 'error')
+    )
+  }
+
+  excluirInstituicaoGestor(instituicao) {
+    Swal({
+      title: 'Você tem certeza?',
+      text: `Você tem certeza que deseja remover esta instituição?`,
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sim, remover!',
+      cancelButtonText: 'Não, manter',
+      reverseButtons: true
+    }).then(result => {
+      if (result.value) {
+        let cpf = instituicao.cpf,
+        idInst = instituicao.idInstituicao_saude;
+        this.administracaoService.deleteInstituicaoGestor(cpf, idInst)
+        .subscribe(
+          res => {
+            this.apiServicesMsg.setMsg('success', 'Instituição excluída com sucesso.', 3000);
+            this.getInstituicoesGestor(this.params.id);
+          },
+          erro => Swal('Erro', `${erro.error}`, 'error')
+        )
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        this.apiServicesMsg.setMsg('error', 'Ação cancelada.', 3000);
+      }
+    });
+  }
+
+  getInstituicoesGestor(cpf) {
+    this.administracaoService.getInstituicoesGestor(cpf)
+    .subscribe(
+      res => this.instsGestor = res,
+      erro => Swal('Erro', `${erro.error}`, 'error')
+      )
   }
 
   ngOnInit() {
     setTimeout(() => {
-      // this.getGestorInstituicao();
-      this.activatedRoute.params.subscribe(res => (this.params = res));
-      this.getUfs();
-      this.getUfsLocal();
-      this.getTipoInst();
-    }, 1000);
+        this.activatedRoute.params.subscribe(res => (this.params = res));
+        this.getUfs();
+        this.getAllMunicipios();
+        this.getUfsLocal();
+        this.getTipoInst();
+        this.getInstsIQS();
+        if (this.params.id) {
+          this.getInstituicoesGestor(this.params.id);
+        }
+      }, 500);
   }
 }

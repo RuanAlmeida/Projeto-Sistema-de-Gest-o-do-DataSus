@@ -7,11 +7,11 @@ const mysql = require('mysql');
 //usar na linnha de comando do MySql: ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'novaSenha';
 const connectMYSQL = () => {
 	return mysql.createConnection({
-		host: '',
-		user: '',
-		password: '',
-		database: '',
-		port: '',
+		host: '', //host
+		user: '', //usuário
+		password: '', //senha
+		database: '', //nome do banco de dados
+		port: 3306, //porta
 		multipleStatements: true
 	});
 };

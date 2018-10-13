@@ -22,6 +22,10 @@ html, body  {
     text-transform: uppercase;
 }
 
+div.tabular.menu a.item.desativado{
+    cursor: none;
+    pointer-events: none;
+  }
 
 .ui.attached.label, .ui[class*="top attached"].label{
     background-color: black;

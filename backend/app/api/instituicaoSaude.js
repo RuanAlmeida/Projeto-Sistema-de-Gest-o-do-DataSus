@@ -16,7 +16,7 @@
         connection.end();
     }
 
-    api.municipio = (req, res) => {
+    api.municipios = (req, res) => {
         const connection = app.conexao.postgresqlConnectionDB(),
         instituicaoSaudeDAO = new app.infra.instituicaoSaudeDAO(connection);
     
@@ -56,7 +56,22 @@
             console.log(error);
             res.status(400).send(error);
         }
-        res.status(200).json(result.rows);
+        res.status(200).json(result);
+    });
+        connection.end();
+    }
+    
+    //Controle de tipo de insituição, caso sucesso, retorna o estado do esquema dfdwp.td_tipo_unidade
+    api.instituicoesIQS = (req, res) => {
+        const connection = app.conexao.postgresqlConnectionDB(),
+        instituicaoSaudeDAO = new app.infra.instituicaoSaudeDAO(connection);
+
+        instituicaoSaudeDAO.getInstituicoesIQS((error, result) => {
+        if (error) {
+            console.log(error);
+            res.status(400).send(error);
+        }
+        res.status(200).json(result);
     });
         connection.end();
     }
@@ -179,28 +194,62 @@
     }
 
 
-    api.listaInstParams = (req, res) => {
-        // const connection = app.conexao.mysqlConnectionDB(),
-        // instituicaoSaudeDAO = new app.infra.instituicaoSaudeDAO(connection);
-        const { estado, municipio, bairro, tipo_inst } = req.query;
-        console.log(estado, municipio, bairro, tipo_inst);
+    api.listaInstByParams = (req, res) => {
+        const connection = app.conexao.postgresqlConnectionDB(),
+        instituicaoSaudeDAO = new app.infra.instituicaoSaudeDAO(connection);
+        let estado = req.query.estado || '',
+        municipio = req.query.municipio || '',
+        bairro = req.query.bairro || '',
+        tipInst = req.query.tipInst || '';
 
-        /*{ estado: '23',
-        municipio: '230428',
-        bairro: 'LAGOINHA',
-        tipo_inst: '2' }*/
-
-        res.sendStatus(200);
-    
-        // instituicaoSaudeDAO.getBairroAtualizado(bairroIds, (error, result) => {
-        //     if (error) {
-        //         console.log(error);
-        //         res.status(400).send(error);
-        //     }
-        //     res.status(200).json(result.rows);
-        // });
-        // connection.end();
+        if (tipInst) {
+            if (bairro) {
+                instituicaoSaudeDAO.getInstituicoesIQSByTipBairro(tipInst, municipio, bairro, (error, result) => {
+                    if (error) { res.status(400).send(error); }
+                    res.status(200).json(result);
+                });
+            } else if (municipio) {
+                instituicaoSaudeDAO.getInstituicoesIQSByTipMunicipio(tipInst, municipio, (error, result) => {
+                    if (error) { res.status(400).send(error); }
+                    res.status(200).json(result);
+                });
+            } else if (estado) {
+                instituicaoSaudeDAO.getInstituicoesIQSByTipEstado(tipInst, estado, (error, result) => {
+                    if (error) { res.status(400).send(error); }
+                    res.status(200).json(result);
+                });
+            } else {
+                instituicaoSaudeDAO.getInstituicoesIQSByTipInst(tipInst, (error, result) => {
+                    if (error) { res.status(400).send(error); }
+                    res.status(200).json(result);
+                });
+            }
+        } else {
+            if (bairro) {
+                instituicaoSaudeDAO.getInstituicoesIQSByBairro(municipio, bairro, (error, result) => {
+                    if (error) { res.status(400).send(error); }
+                    res.status(200).json(result);
+                });
+            } else if (municipio) {
+                instituicaoSaudeDAO.getInstituicoesIQSByMunicipio(municipio, (error, result) => {
+                    if (error) { res.status(400).send(error); }
+                    res.status(200).json(result);
+                });
+            } else if (estado) {
+                instituicaoSaudeDAO.getInstituicoesIQSByEstado(estado, (error, result) => {
+                    if (error) { res.status(400).send(error); }
+                    res.status(200).json(result);
+                });
+            } else {
+                instituicaoSaudeDAO.getInstituicoesIQS((error, result) => {
+                    if (error) { res.status(400).send(error); }
+                    res.status(200).json(result);
+                });
+            }
+        }    
+        connection.end();
     }
 
     return api;
 };
+

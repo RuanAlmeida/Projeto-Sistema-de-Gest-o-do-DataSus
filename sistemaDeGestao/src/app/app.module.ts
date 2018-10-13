@@ -13,6 +13,7 @@ import { FormsModule } from '../../node_modules/@angular/forms';
 import { JwtInterceptor } from './services/jwt.interceptor';
 import { AuthenticationService } from './services/authentication.service';
 import { AuthGuard } from './guards/auth.guard.service';
+import { ApiServicesMsg } from './api-service/api-services-msg';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { AuthGuard } from './guards/auth.guard.service';
   ],
   providers: [
     AppService,
+    ApiServicesMsg,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

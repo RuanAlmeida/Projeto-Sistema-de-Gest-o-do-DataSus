@@ -6,7 +6,7 @@ module.exports = function(app){
 
     //Valida o Login do Usuário e cria o Token de acesso. 
     api.autentica = (req, res) => {
-    	const knex = app.conexao.conexaoBDKnex();
+    	const knex = app.conexao.knexConnection();
         var user = req.body;
 
         knex.select('*').from('gestores').where('login', user.login)
@@ -36,7 +36,7 @@ module.exports = function(app){
 
     //Exibe o nome do usuário que deslogou.
     // api.desloga = (req, res) => {
-    //     const knex = app.conexao.conexaoBDKnex();
+    //     const knex = app.conexao.knexConnection();
     //     const cod_usuario = req.body.cod_usuario;
 
     //     knex.select('nome').from('gestores').where('idGestores', idGestores)
