@@ -2,11 +2,11 @@ const pg = require('pg');
  //conexão com o banco	
 var connPG = function(){	
 	const config = {	
-        host: '',	
-        user: '',	
-        database: '',	
-        password: '',	
-        port: ''
+        host: '', //host
+        user: '', //usuário
+        password: '',	//senha
+        database: '', //nome do banco de dados
+        port: 5432 //porta
     };	
     return pool = new pg.Pool(config);	
 }	

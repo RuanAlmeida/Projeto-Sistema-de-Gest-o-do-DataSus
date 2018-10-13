@@ -14,10 +14,6 @@ module.exports = (app) => {
     app.route('/iradarsaude/iradarsaude/enderecoIQS/:cpf')
         .get(enderecos.listaEnderecos);
 
-    // ------------------ ROTAS DE GENÉRICAS ---------------
-    app.route('/iradarsaude/municipiosIRS')
-        .get(instituicaoSaude.municipio);
-
     // ------------------ ROTAS DE EMPRESA ---------------
     app.route('/iradarsaude/empresa')
         .post(gestores.cadastrarEmpresa);
@@ -77,16 +73,51 @@ module.exports = (app) => {
         .get(instituicaoSaude.estado);
 
     app.route('/iradarsaude/instituicaoSaude/municipios')
-        .get(instituicaoSaude.municipio);
+        .get(instituicaoSaude.municipios);
 
     app.route('/iradarsaude/instituicaoSaude/tipoInstituicao')
         .get(instituicaoSaude.tipoInstituicao);
 
-    app.route('/iradarsaude/instituicaoSaude/instituicao/:municipio/:bairro/:tipo')
-        .get(instituicaoSaude.instituicao);
+
+    //////////////////////////////////////////////////
+    ////               INSTITUIÇÃO                ////
+    //////////////////////////////////////////////////
+
+    // Trás todas as intituições IQS
+    app.route('/iradarsaude/instituicaoSaude/instituicoesIQS')
+        .get(instituicaoSaude.instituicoesIQS);
+
+    app.route('/iradarsaude/instituicaoSaude/instituicao')
+        .get(instituicaoSaude.instituicao)
+        .post(instituicaoIRS.adicionaPerfilInstituicaoSaude);
+
+    app.route('/iradarsaude/instituicaoSaude/listaInstByParams')
+        .get(instituicaoSaude.listaInstByParams);
 
     app.route('/iradarsaude/instituicaoSaude/bairros/:id')
         .get(instituicaoSaude.bairros);
+
+    //Trás as instituições relacionadas ao gestor
+    app.route('/iradarsaude/instituicoesGestor/:cpf')
+        .get(instituicaoIRS.getInstituicoesGestor);
+
+    //Deleta a instituição relacionada ao gestor
+    app.route('/iradarsaude/instituicaoGestor/:cpf/:idInst')
+        .delete(instituicaoIRS.deleteInstituicoesGestor);
+
+    //Adiciona o bairro no banco de dados caso não exista
+    app.route('/iradarsaude/bairro')
+        .post(instituicaoIRS.adicionaBairro);
+
+    //Adiciona o tipo de instituição no banco de dados caso não exista
+    app.route('/iradarsaude/tipoInstituicao')
+        .post(instituicaoIRS.adicionaTipoInstituicao);
+
+    //Adiciona a instituição de saúde no banco de dados caso não exista
+    app.route('/iradarsaude/instituicaoSaude')
+        .post(instituicaoIRS.adicionaInstituicaoSaude);
+        
+     //////////////////////////////////////////////////
         
     app.route('/iradarsaude/instituicaoSaude/estadosAtualizados/:ufId')
         .get(instituicaoSaude.estadosAtualizados);
@@ -130,8 +161,5 @@ module.exports = (app) => {
     // rostas de perfis
     app.route('/iradarsaude/perfis')
         .get(perfil.perfil);
-
-    app.route('/iradarsaude/listaInstParams')
-        .get(instituicaoSaude.listaInstParams);
 
 }

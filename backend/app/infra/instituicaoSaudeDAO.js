@@ -8,16 +8,74 @@ InstituicaoSaudeDAO.prototype.getEstado = function (callback) {
 }
 
 InstituicaoSaudeDAO.prototype.getMunicipios = function (callback) {
-    this._connection.query("SELECT id_municipio, id_uf, no_mun_completo FROM dbgeral.tb_municipio order by no_mun_completo", callback);
+    this._connection.query(`SELECT id_municipio, id_uf, no_mun_completo FROM dbgeral.tb_municipio order by no_mun_completo`, callback);
 }
 
 InstituicaoSaudeDAO.prototype.getTipoUnidade = function (callback) {
     this._connection.query("SELECT * FROM dfdwp.td_tipo_unidade order by ds_tipo_unidade", callback);
 }
 
-InstituicaoSaudeDAO.prototype.getInstituicao = function (municipio, bairro, tipo, callback) {
-    this._connection.query(`SELECT * FROM dfdwp.td_instituicao where id_municipio = '${municipio}' AND no_bairro = '${bairro}' AND id_tipo_unidade = '${tipo}' order by no_fantasia` , callback);
+
+    //////////////////////////////////////////////////
+    ////          INSTITUÇÃO DE SAÚDE             ////
+    //////////////////////////////////////////////////
+
+//Trás todas as instituições do banco de dados IQS
+InstituicaoSaudeDAO.prototype.getInstituicoesIQS = function (callback) {
+    this._connection.query(`SELECT * FROM dfdwp.td_instituicao ORDER BY no_fantasia;`, callback);
 }
+
+//Trás as instituições do banco de dados IQS de acordo com o bairro
+InstituicaoSaudeDAO.prototype.getInstituicoesIQSByBairro = function (municipio, bairro, callback) {
+    this._connection.query(`SELECT * FROM dfdwp.td_instituicao WHERE id_municipio = '${municipio}' AND no_bairro = '${bairro}' ORDER BY no_fantasia;`, callback);
+}
+
+//Trás as instituições do banco de dados IQS de acordo com o municipio
+InstituicaoSaudeDAO.prototype.getInstituicoesIQSByMunicipio = function (municipio, callback) {
+    this._connection.query(`SELECT * FROM dfdwp.td_instituicao WHERE id_municipio = '${municipio}' ORDER BY no_fantasia;`, callback);
+}
+
+//Trás as instituições do banco de dados IQS de acordo com o estado
+InstituicaoSaudeDAO.prototype.getInstituicoesIQSByEstado = function (estado, callback) {
+    this._connection.query(`SELECT dfdwp.td_instituicao.* FROM dfdwp.td_instituicao INNER JOIN dbgeral.tb_municipio ON dfdwp.td_instituicao.id_municipio = dbgeral.tb_municipio.id_municipio INNER JOIN dbgeral.tb_uf ON dbgeral.tb_municipio.id_uf = dbgeral.tb_uf.id_uf WHERE dbgeral.tb_uf.id_uf = '${estado}' ORDER BY no_fantasia;`, callback);
+}
+
+//Trás as instituições do banco de dados IQS de acordo com o tipo da instituição e o bairro
+InstituicaoSaudeDAO.prototype.getInstituicoesIQSByTipBairro = function (tipInst, municipio, bairro, callback) {
+    this._connection.query(`SELECT * FROM dfdwp.td_instituicao WHERE id_tipo_unidade = '${tipInst}' AND id_municipio = '${municipio}' AND no_bairro = '${bairro}' ORDER BY no_fantasia;`, callback);
+}
+
+//Trás as instituições do banco de dados IQS de acordo com o tipo da instituição e o municipio
+InstituicaoSaudeDAO.prototype.getInstituicoesIQSByTipMunicipio = function (tipInst, municipio, callback) {
+    this._connection.query(`SELECT * FROM dfdwp.td_instituicao WHERE id_tipo_unidade = '${tipInst}' AND id_municipio = '${municipio}' ORDER BY no_fantasia;`, callback);
+}
+
+//Trás as instituições do banco de dados IQS de acordo com o tipo da instituição e o estado
+InstituicaoSaudeDAO.prototype.getInstituicoesIQSByTipEstado = function (tipInst, estado, callback) {
+    this._connection.query(`SELECT dfdwp.td_instituicao.* FROM dfdwp.td_instituicao INNER JOIN dbgeral.tb_municipio ON dfdwp.td_instituicao.id_municipio = dbgeral.tb_municipio.id_municipio INNER JOIN dbgeral.tb_uf ON dbgeral.tb_municipio.id_uf = dbgeral.tb_uf.id_uf  WHERE dbgeral.tb_uf.id_uf = '${estado}' AND id_tipo_unidade = '${tipInst}' ORDER BY no_fantasia;`, callback);
+}
+
+//Trás as instituições do banco de dados IQS de acordo com o tipo da instituição
+InstituicaoSaudeDAO.prototype.getInstituicoesIQSByTipInst = function (tipInst, callback) {
+    this._connection.query(`SELECT * FROM dfdwp.td_instituicao WHERE id_tipo_unidade = '${tipInst}' ORDER BY no_fantasia;`, callback);
+}
+
+    //////////////////////////////////////////////////
+
+//rotas post inst saude
+
+InstituicaoSaudeDAO.prototype.getInstituicao = function (municipio, bairro, tipo, callback) {
+    this._connection.query(`SELECT * FROM dfdwp.td_instituicao WHERE id_municipio = '${municipio}' AND no_bairro = '${bairro}' AND id_tipo_unidade = '${tipo}' ORDER BY no_fantasia;` , callback);
+}
+
+InstituicaoSaudeDAO.prototype.getInstituicao2 = function (municipio, bairro, tipo, callback) {
+    this._connection.query(`select * FROM dfdwp.td_instituicao where ("id_municipio", "no_bairro", "id_tipo_unidade") in (('${municipio}', '${bairro}', '${tipo}')) order by no_fantasia` , callback);
+}
+
+InstituicaoSaudeDAO.prototype.getInstituicao3 = function (municipio, bairro, tipo, callback) {
+    this._connection.query(`select * FROM dfdwp.td_instituicao where ("id_municipio", "no_bairro", "id_tipo_unidade") in (('${municipio}', '${bairro}', '${tipo}')) order by no_fantasia` , callback);
+}
+//rotas post inst saude
 
 InstituicaoSaudeDAO.prototype.getBairros = function (id, callback) {
     this._connection.query(`SELECT * FROM dfdwp.td_instituicao WHERE id_municipio = '${id}'`, callback);

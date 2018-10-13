@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { API } from '../app.api';
@@ -96,24 +96,46 @@ export class AdministracaoService {
       .put(`${API.ROTAS_API}contato/${cpf}`, contato);
   }
 
+//////////////////////////////////////////////////
+////               INSTITUIÇÃO                ////
+//////////////////////////////////////////////////
 
-  // requisicoes HTTP de instituição
-  getInstituicaoId(cpf) {
+  //Trás as instituições relacionadas ao gestor
+  getInstituicoesGestor(cpf) {
     return this.http
-      .get(`${API.ROTAS_API}instituicao/${cpf}`);
+      .get(`${API.ROTAS_API}instituicoesGestor/${cpf}`);
   }
 
-  postInstituicao(instituicao) {
+   //Deleta a instituição relacionada ao gestor
+  deleteInstituicaoGestor(cpf, idInst) {
     return this.http
-      .post(`${API.ROTAS_API}instituicao`, instituicao);
+      .delete(`${API.ROTAS_API}instituicaoGestor/${cpf}/${idInst}`);
   }
 
-  putInstituicao(instituicao, cpf) {
+  //Adiciona o bairro no banco de dados caso não exista
+  postBairro(bairro) {
     return this.http
-      .post(`${API.ROTAS_API}instituicao/${cpf}`, instituicao);
+      .post(`${API.ROTAS_API}bairro`, bairro);
   }
 
+//Adiciona o tipo de instituição no banco de dados caso não exista
+  postTipoInstituicao(tipInst) {
+    return this.http
+      .post(`${API.ROTAS_API}tipoInstituicao`, tipInst);
+  }
+  
+//Adiciona a instituição de saúde no banco de dados caso não exista
+  postInstituicaoSaude(instSaude) {
+    return this.http
+      .post(`${API.ROTAS_API}instituicaoSaude`, instSaude);
+}
+//associa o gestor a instituicao
+  postInstituicaoGestor(instGestor) {
+    return this.http
+      .post(`${API.ROTAS_API}instituicaoSaude/instituicao`, instGestor);
+}
 
+//////////////////////////////////////////////////
 
   // requisicoes HTTP dos Módulos e visões
   getVisao() {
@@ -172,6 +194,27 @@ export class AdministracaoService {
   getSelecioneTipoInt() {
     return this.http
       .get(`${API.ROTAS_API}instituicaoSaude/tipoInstituicao`);
+  }
+
+  /*
+  * Protocolo HTTP
+  */
+ getInstsIQS() {
+    return this.http
+      .get(`${API.ROTAS_API}instituicaoSaude/instituicoesIQS`);
+  }
+
+  /*
+  * Protocolo HTTP
+  */
+ getInstsIQSByParams(form) {
+   let params = new HttpParams();
+   params = params.append('estado', form.uf || '');
+   params = params.append('municipio', form.municipio || '');
+   params = params.append('bairro', form.bairro || '');
+   params = params.append('tipInst', form.tipInst || '');
+    return this.http
+      .get(`${API.ROTAS_API}instituicaoSaude/listaInstByParams`, {params: params});
   }
 
   /*

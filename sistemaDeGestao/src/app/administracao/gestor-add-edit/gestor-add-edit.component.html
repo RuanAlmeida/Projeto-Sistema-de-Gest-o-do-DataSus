@@ -3,12 +3,12 @@
     <div class="row ">
       <sui-tabset>
         <div class="ui top attached tabular menu">
-          <a class="item" suiTabHeader="0" [(isActive)]="empresaActive">Empresa</a>
-          <a class="item" suiTabHeader="1" [(isActive)]="gestorActive">Gestor</a>
-          <a class="item" suiTabHeader="2" [(isActive)]="enderecoActive">Endereço</a>
-          <a class="item" suiTabHeader="3" [(isActive)]="contatoActive">Contato</a>
-          <a class="item" suiTabHeader="4" [(isActive)]="instActive">Instituições</a>
-          <a class="item" suiTabHeader="5" [(isActive)]="perfilActive">Perfil</a>
+          <a class="item" [ngClass]="{'desativado': verifyId() }" suiTabHeader="0" [(isActive)]="empresaActive">Empresa</a>
+          <a class="item" [ngClass]="{'desativado': verifyId() }" suiTabHeader="1" [(isActive)]="gestorActive">Gestor</a>
+          <a class="item" [ngClass]="{'desativado': verifyId() }" suiTabHeader="2" [(isActive)]="enderecoActive">Endereço</a>
+          <a class="item" [ngClass]="{'desativado': verifyId() }" suiTabHeader="3" [(isActive)]="contatoActive">Contato</a>
+          <a class="item" [ngClass]="{'desativado': verifyId() }" suiTabHeader="4" [(isActive)]="instActive">Instituições</a>
+          <a class="item" [ngClass]="{'desativado': verifyId() }" suiTabHeader="5" [(isActive)]="perfilActive">Perfil</a>
         </div>
 
 
@@ -361,26 +361,25 @@
             <div class="field">
               <div class="fields">
                 <div class="four wide field">
-                  <label>Estado</label>
-                  <select class="ui dropdown" name="uf" [(ngModel)]="instituicao.uf" (ngModelChange)="selectUf($event)" #uf required>
-                    <option value="">Selecione Estado</option>
+                  <label>Estado <i class="spinner loading icon" *ngIf="loadingEstados"></i></label>
+                  <select class="ui dropdown" name="uf" [(ngModel)]="instituicao.uf" (ngModelChange)="selectUf($event)" (change)="getInstsIQSByParams()" #uf>
+                    <option value="">Nenhum</option>
                     <option *ngFor="let uf of ufs" value="{{uf.id_uf}}">{{uf.no_uf_completo}}</option>
                   </select>
                 </div>
 
                 <div class="six wide field">
-                  <label>Municipio</label>
-                  <select class="ui dropdown" name="municipio" [(ngModel)]="instituicao.municipio" (ngModelChange)="getBairros($event)" #municipio
-                    required>
-                    <option value="">Selecione municipio</option>
+                  <label>Municipio <i class="spinner loading icon" *ngIf="loadingMunicipios"></i></label>
+                  <select class="ui dropdown" name="municipio" [(ngModel)]="instituicao.municipio" (ngModelChange)="getBairros($event)" (change)="getInstsIQSByParams()" #municipio>
+                    <option value="">Nenhum</option>
                     <option *ngFor="let municipio of municipios" value="{{municipio.id_municipio}}">{{municipio.no_mun_completo}}</option>
                   </select>
                 </div>
 
                 <div class="six wide field">
-                  <label>Bairro</label>
-                  <select class="ui dropdown" name="bairro" [(ngModel)]="instituicao.bairro" #bairro required>
-                    <option value="">Selecione Bairro</option>
+                  <label>Bairro <i class="spinner loading icon" *ngIf="loadingBairros"></i></label>
+                  <select class="ui dropdown" name="bairro" [(ngModel)]="instituicao.bairro" (change)="getInstsIQSByParams()" #bairro>
+                    <option value="">Nenhum</option>
                     <option *ngFor="let bairro of bairros" value="{{bairro.no_bairro}}">{{bairro.no_bairro}}</option>
                   </select>
                 </div>
@@ -392,19 +391,17 @@
               <div class="fields">
 
                 <div class="four wide field">
-                  <label>Tipo de Instituição</label>
-                  <select class="ui dropdown" name="tipInst" [(ngModel)]="instituicao.tipInst" (ngModelChange)="getInsts(instituicao)" #tipInst
-                    required>
-                    <option value="">Selecione</option>
+                  <label>Tipo de Instituição <i class="spinner loading icon" *ngIf="loadingTipoInsts"></i></label>
+                  <select class="ui dropdown" name="tipInst" [(ngModel)]="instituicao.tipInst" (change)="getInstsIQSByParams()" #tipInst>
+                    <option value="">Nenhuma</option>
                     <option *ngFor="let tipInst of tipInsts" value="{{tipInst.id_tipo_unidade}}">{{tipInst.ds_tipo_unidade}}</option>
                   </select>
                 </div>
 
                 <div class="eight wide field">
-                  <label>Instituição de Saúde</label>
-                  <select class="ui dropdown" name="idInstituicao_saude" [(ngModel)]="instituicao.idInstituicao_saude" #instSau required>
-                    <option value="">Selecione</option>
-                    <option *ngFor="let instSau of instsSau" value="{{instSau.id_unidade}}">{{instSau.no_fantasia}}</option>
+                  <label>Instituição de Saúde <i class="spinner loading icon" *ngIf="loadingInsts"></i></label>
+                  <select class="ui dropdown" name="idInstituicao_saude" [(ngModel)]="instituicao.idInstituicao_saude" (ngModelChange)="selectInst($event)" required>
+                    <option *ngFor="let instSau of instsSau" [ngValue]="instSau">{{instSau.no_fantasia}}</option>
                   </select>
                 </div>
 
@@ -429,7 +426,6 @@
               <p></p>
 
               <div class="ui stackable one column grid">
-
                 <div class="sixteen wide column">
                   <table class="ui selectable celled table">
                     <thead>
@@ -442,35 +438,13 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr class="ui center aligned collapsing">
-                        <td>John</td>
-                        <td>Approved</td>
-                        <td>None</td>
-                        <td>None</td>
+                      <tr class="ui center aligned collapsing" *ngFor="let inst of instsGestor" >
+                        <td>{{inst.tipo_inst}}</td>
+                        <td>{{inst.descricao}}</td>
+                        <td>{{inst.uf}}</td>
+                        <td>{{inst.municipio}}</td>
                         <td>
-                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover" popupInverted="true" (click)="deletarEmpresa(empresa)">
-                            <i class="trash alternate icon"></i>
-                          </a>
-                        </td>
-                      </tr>
-                      <tr class="ui center aligned collapsing">
-                        <td>Jamie</td>
-                        <td>Approved</td>
-                        <td>None</td>
-                        <td>None</td>
-                        <td>
-                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover" popupInverted="true" (click)="deletarEmpresa(empresa)">
-                            <i class="trash alternate icon"></i>
-                          </a>
-                        </td>
-                      </tr>
-                      <tr class="ui center aligned collapsing">
-                        <td>Jill</td>
-                        <td>Denied</td>
-                        <td>None</td>
-                        <td>None</td>
-                        <td>
-                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover" popupInverted="true" (click)="deletarEmpresa(empresa)">
+                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover" popupInverted="true" (click)="excluirInstituicaoGestor(inst)">
                             <i class="trash alternate icon"></i>
                           </a>
                         </td>
