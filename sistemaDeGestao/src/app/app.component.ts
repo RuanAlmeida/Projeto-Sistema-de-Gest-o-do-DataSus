@@ -20,7 +20,7 @@ export class AppComponent  {
   deslogar() {
     swal({
       title: 'Você tem certeza?',
-      text: "Você tem certeza que deseja sair?",
+      text: 'Você tem certeza que deseja sair?',
       type: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -31,7 +31,7 @@ export class AppComponent  {
         this.authenticationService.logout();
         this.router.navigate(['login']);
       }
-    })
+    });
   }
 
   isLogado() {
