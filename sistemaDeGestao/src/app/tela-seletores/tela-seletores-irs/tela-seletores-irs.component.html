@@ -1,21 +1,23 @@
 <div class="ui seven column centered grid">
-    <div class="column"></div>
-    <div class="column"></div>
-    <div class="column"></div>
+  <div class="column"></div>
+  <div class="column"></div>
+  <div class="column"></div>
 
-    <div class="one column centered row">
-        <label class="TituloPagSelec">Indicadores do Sistema IRadar Saúde</label>
-    </div>
-    <div class="column"></div>
-    <div class="column"></div>
-    <div class="column"></div>
+  <div class="one column centered row">
+    <label class="TituloPagSelec">Seletores do Sistema I Radar Saúde</label>
   </div>
+  <div class="column"></div>
+  <div class="column"></div>
+  <div class="column"></div>
+</div>
 
 
 <div class="ui container segment">
-    <div class="ui top attached label">
-        Filtro de Seleção
-      </div>
+  <div class="ui top attached label">
+    Filtro de Seleção
+  </div>
+
+  
   <form class="ui form">
 
     <div class="field">
@@ -69,6 +71,7 @@
 
       </div>
     </div>
+
     <div class="field">
       <div class="fields">
 
@@ -79,18 +82,6 @@
             <option *ngFor="let persAva of persAvas" value="{{persAva.persAva}}">{{persAva.persAva}}</option>
           </select>
         </div>
-        <div class="eight wide field">
-          <label>Perspectiva Avaliativa</label>
-          <select class="ui dropdown" name="persAva" [(ngModel)]="seletorIRS.persAva" required #persAva>
-            <option value="">Selecione</option>
-            <option *ngFor="let persAva of persAvas" value="{{persAva.persAva}}">{{persAva.persAva}}</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-        <div class="field">
-          <div class="fields">
 
         <div class="eight wide field">
           <label>Abrangência - Visão</label>
@@ -113,9 +104,10 @@
 
     <div class="ui stackable one column grid">
       <div class="column">
-        <button class="ui right floated linkedin button">Aplicar</button>
+        <button class="ui right floated linkedin button"  (click)="painelOperacional()" >Aplicar</button>
       </div>
     </div>
   </form>
+
 
 </div>

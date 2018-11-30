@@ -1,3 +1,59 @@
-<p>
-  painel-operacional works!
-</p>
+<div class="ui seven column centered grid">
+    <div class="column"></div>
+    <div class="column"></div>
+    <div class="column"></div>
+
+    <div class="one column centered row">
+        <label class="TituloPagSelec">Painéis operacionais</label>
+    </div>
+    <div class="column"></div>
+    <div class="column"></div>
+    <div class="column"></div>
+  </div>
+<div class="ui container segment">
+    <div class="ui top attached label">
+        Painéis operacionais
+    </div>
+
+    <div class="ui stackable internally celled grid">
+        <div class="row">
+            <div class="eight wide column">
+                <canvas baseChart width="400"
+                height="150"
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+            </div>
+            <div class="eight wide column">
+                <canvas baseChart width="400"
+                 height="150"
+                 [datasets]="barChartData"
+                 [labels]="barChartLabels"
+                 [options]="barChartOptions"
+                    [legend]="barChartLegend"
+                     [chartType]="barChartType"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="eight wide column">
+                <canvas baseChart width="400"
+                 height="150"
+                 [data]="doughnutChartData"
+                 [labels]="doughnutChartLabels"
+                 [chartType]="doughnutChartType"></canvas>
+            </div>
+            <div class="eight wide column">
+                <canvas baseChart width="400"
+                 height="150"
+                 [data]="polarAreaChartData"
+                 [labels]="polarAreaChartLabels"
+                 [legend]="polarAreaLegend"
+                    [chartType]="polarAreaChartType">
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>

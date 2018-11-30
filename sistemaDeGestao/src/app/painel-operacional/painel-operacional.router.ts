@@ -5,7 +5,7 @@ import { PainelOperacionalComponent } from './painel-operacional.component';
 
 
     const PainelOperacionalRoutes = [
-        { path: '', component: PainelOperacionalComponent },
+        { path: '', component: PainelOperacionalComponent }
     ];
 
 

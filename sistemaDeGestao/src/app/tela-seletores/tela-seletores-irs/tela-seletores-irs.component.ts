@@ -1,5 +1,6 @@
 import { TelaSeletoresService } from './../tela-seletores.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tela-seletores-irs',
@@ -34,8 +35,9 @@ export class TelaSeletoresIrsComponent implements OnInit {
 
 
   constructor(
-    private telaSeletoresService: TelaSeletoresService
-  ) { }
+    private telaSeletoresService: TelaSeletoresService,
+    private router: Router
+    ) { }
 
 
   getInstituicao() {
@@ -70,5 +72,11 @@ export class TelaSeletoresIrsComponent implements OnInit {
     this.getUfs();
   }
 
+  painelOperacional() {
+    this.router.navigate(['/painelOperacional']);
+  }
+
 
 }
+
+
