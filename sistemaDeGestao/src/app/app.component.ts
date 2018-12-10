@@ -35,6 +35,6 @@ export class AppComponent  {
   }
 
   isLogado() {
-    return this.authenticationService.isLogado();
+    return (localStorage.getItem('localUser') !== null);
   }
 }

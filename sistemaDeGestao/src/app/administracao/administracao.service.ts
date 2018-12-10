@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { API } from '../app.api';
+import { API } from '../config/api.config';
 
 @Injectable()
 export class AdministracaoService {
@@ -100,36 +100,36 @@ export class AdministracaoService {
 ////               INSTITUIÇÃO                ////
 //////////////////////////////////////////////////
 
-  //Trás as instituições relacionadas ao gestor
+  // Trás as instituições relacionadas ao gestor
   getInstituicoesGestor(cpf) {
     return this.http
       .get(`${API.ROTAS_API}instituicoesGestor/${cpf}`);
   }
 
-   //Deleta a instituição relacionada ao gestor
+   // Deleta a instituição relacionada ao gestor
   deleteInstituicaoGestor(cpf, idInst) {
     return this.http
       .delete(`${API.ROTAS_API}instituicaoGestor/${cpf}/${idInst}`);
   }
 
-  //Adiciona o bairro no banco de dados caso não exista
+  // Adiciona o bairro no banco de dados caso não exista
   postBairro(bairro) {
     return this.http
       .post(`${API.ROTAS_API}bairro`, bairro);
   }
 
-//Adiciona o tipo de instituição no banco de dados caso não exista
+// Adiciona o tipo de instituição no banco de dados caso não exista
   postTipoInstituicao(tipInst) {
     return this.http
       .post(`${API.ROTAS_API}tipoInstituicao`, tipInst);
   }
-  
-//Adiciona a instituição de saúde no banco de dados caso não exista
+
+// Adiciona a instituição de saúde no banco de dados caso não exista
   postInstituicaoSaude(instSaude) {
     return this.http
       .post(`${API.ROTAS_API}instituicaoSaude`, instSaude);
 }
-//associa o gestor a instituicao
+// associa o gestor a instituicao
   postInstituicaoGestor(instGestor) {
     return this.http
       .post(`${API.ROTAS_API}instituicaoSaude/instituicao`, instGestor);

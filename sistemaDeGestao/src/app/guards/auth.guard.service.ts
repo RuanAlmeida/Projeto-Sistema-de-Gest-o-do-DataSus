@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterStat
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
+import { STORAGE_KEYS } from '../config/storage_keys.config';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanLoad {
@@ -13,13 +14,12 @@ export class AuthGuard implements CanActivate, CanLoad {
 
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (localStorage.getItem('currentUser')) {
+    if (localStorage.getItem(STORAGE_KEYS.localUser) !== null) {
       // logged in so return true
       return true;
     }
-
     // not logged in so redirect to login page with the return url
-    this.router.navigate(['login'], { queryParams: { returnUrl: state.url } });
+    this.router.navigate(['login']);
     return false;
   }
 

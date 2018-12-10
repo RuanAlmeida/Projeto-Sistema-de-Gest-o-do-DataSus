@@ -3,30 +3,23 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse, Htt
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import { AuthenticationService } from './authentication.service';
-import { Router } from '@angular/router';
+import { StorageService } from './storage.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
   constructor(
     public authenticationService: AuthenticationService,
-    private router: Router
+    private storage: StorageService
   ) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        const currentUser = this.authenticationService.getToken();
-        const currentUserCode = this.authenticationService.getUserCode();
-        const currentCode = this.authenticationService.getCode();
+      const localUser = this.storage.getLocalUser();
 
-        if (currentUser) {
-        request = request.clone({
-            setHeaders: {
-            'x-access-token': currentUser,
-            'id-gestores': currentUserCode,
-            'id-gestores-cript': currentCode
-          }
-        });
+        if (localUser) {
+          const authReq = request.clone({headers: request.headers.set('Authorization', 'Bearer ' + localUser.token)});
+          return next.handle(authReq);
       }
         return next.handle(request)
         .do((event: HttpEvent<any>) => {
@@ -36,7 +29,6 @@ export class JwtInterceptor implements HttpInterceptor {
                if (err instanceof HttpErrorResponse) {
                 if (err.status === 401 || err.status === 403) {
                   this.authenticationService.logout();
-                  this.router.navigate(['login']);
                 }
                }
              });

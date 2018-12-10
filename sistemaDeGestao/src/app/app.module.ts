@@ -14,6 +14,7 @@ import { JwtInterceptor } from './services/jwt.interceptor';
 import { AuthenticationService } from './services/authentication.service';
 import { AuthGuard } from './guards/auth.guard.service';
 import { ApiServicesMsg } from './api-service/api-services-msg';
+import { StorageService } from './services/storage.service';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { ApiServicesMsg } from './api-service/api-services-msg';
       multi: true
     },
     AuthenticationService,
-    AuthGuard
+    AuthGuard,
+    StorageService
   ],
   bootstrap: [AppComponent]
 })
