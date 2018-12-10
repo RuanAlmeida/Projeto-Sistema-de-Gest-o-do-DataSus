@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
+import { Headers } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
 
-import { SeletoresIQS, SeletoresIRS, SeletoresLocal } from '../tela-seletores/model/index';
-import { API } from '../app.api';
+import { SeletoresLocal } from '../tela-seletores/model/index';
+import { API } from '../config/api.config';
 
 
 @Injectable()

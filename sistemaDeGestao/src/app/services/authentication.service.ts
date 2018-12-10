@@ -1,59 +1,43 @@
-﻿import { Injectable, EventEmitter } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
+import { API } from '../config/api.config';
+import { LocalUser } from '../models/local_user';
+import { StorageService } from './storage.service';
+import { JwtHelper } from 'angular2-jwt';
 import { Router } from '@angular/router';
-import { API } from '../app.api';
 
 @Injectable()
 export class AuthenticationService {
 
+  jwtHelper: JwtHelper = new JwtHelper();
+
     constructor(
       private http: HttpClient,
-      private router: Router
+      private storage: StorageService,
+      private router: Router,
     ) { }
 
     login(user) {
-      this.logout();
-        return this.http.post<any>(`${API.AUTH_API}autentica`, user)
-            .map(res => {
-              if (res) {
-                localStorage.setItem('currentUser', res.token);
-                localStorage.setItem('currentCode', res.idGestores_cript);
-                localStorage.setItem('currentUserCode', res.idGestores);
-              }
-            },
-          erro => console.error(erro)
-          );
+        return this.http.post(`${API.ROTAS_API}/login`, user,
+        {
+          observe: 'response',
+          responseType: 'text'
+        });
     }
 
-getToken() {
-  return localStorage.getItem('currentUser');
-}
-
-getCode() {
-  return localStorage.getItem('currentCode');
-}
-
-getUserCode() {
-  return localStorage.getItem('currentUserCode');
-}
-
-verificaUser(): string {
-  return localStorage.getItem('currentUserCode');
-}
-
-logout() {
-  localStorage.removeItem('currentUser');
-  localStorage.removeItem('currentCode');
-  localStorage.removeItem('currentUserCode');
-}
-
-isLogado() {
-  if (localStorage.getItem('currentUser')) {
-    return true;
-  } else {
-    return false;
+    successfulLogin(authorizationValue: String) {
+      const tok = authorizationValue.substring(7);
+      const user: LocalUser = {
+          token: tok,
+          gestor: this.jwtHelper.decodeToken(tok).sub
+      };
+      this.storage.setLocalUser(user);
   }
-}
+
+  logout() {
+      this.storage.setLocalUser(null);
+      this.router.navigate(['/login']);
+  }
 
 }

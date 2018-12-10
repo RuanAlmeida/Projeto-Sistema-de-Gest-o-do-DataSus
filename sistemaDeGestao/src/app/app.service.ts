@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { API } from './app.api';
+import { HttpClient } from '@angular/common/http';
+import { API } from './config/api.config';
 
 @Injectable()
 export class AppService {
@@ -13,7 +13,7 @@ export class AppService {
   ) {
       this.http.get(`${API.ROTAS_API}municipiosLocal`)
       .subscribe( res => this.municipiosLocal = res );
-      
+
       this.http.get(`${API.ROTAS_API}ufs`)
       .subscribe( res => this.ufsLocal = res );
     }

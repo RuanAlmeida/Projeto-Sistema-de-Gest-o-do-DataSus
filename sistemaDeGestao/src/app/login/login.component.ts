@@ -17,7 +17,8 @@ export class LoginComponent implements OnInit {
     constructor(
         private authenticationService: AuthenticationService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private auth: AuthenticationService
     ) { }
 
     fazerLogin(fLogin: NgForm) {
@@ -25,14 +26,15 @@ export class LoginComponent implements OnInit {
         this.authenticationService.login(fLogin.value)
         .subscribe(
             res => {
-                this.router.navigate([this.returnUrl]);
+                this.auth.successfulLogin(res.headers.get('Authorization'));
+                this.router.navigate(['/home']);
                 this.logando = false;
             },
             erro => {
                 console.error(erro);
                 this.logando = false;
             }
-        )
+        );
     }
 
     ngOnInit() {
