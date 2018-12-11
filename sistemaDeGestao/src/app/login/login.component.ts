@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
                 console.error(erro);
                 this.logando = false;
             }
-        )
+        );
     }
 
     ngOnInit() {

@@ -17,9 +17,6 @@ export class AdministracaoService {
   }
 
   // requisições HTTP Empresa
-
-
-
   getEmpresaId(cnpj) {
     return this.http
       .get(`${API.ROTAS_API}empresa/${cnpj}`);
@@ -30,7 +27,7 @@ export class AdministracaoService {
   }
   postEmpresa(empresa) {
     return this.http
-      .post(`${API.ROTAS_API}empresa`, empresa);
+      .post(`${API.ROTAS_API}empresasgestores`, empresa);
   }
 
   // requisições HTTP Gestor
@@ -40,7 +37,7 @@ export class AdministracaoService {
   }
   getGestores() {
     return this.http
-      .get(`${API.ROTAS_API}gestores`);
+      .get(`${API.SPRING_API}gestores`);
   }
 
   getGestorId(cpf) {
@@ -64,18 +61,18 @@ export class AdministracaoService {
   }
 
   // requisições HTTP Endereços
-  getEnderecoId(cpf) {
+  getEnderecoId(id) {
     return this.http
-      .get(`${API.ROTAS_API}endereco/${cpf}`);
+      .get(`${API.ROTAS_API}enderecos/${id}`);
   }
   postEndereco(endereco) {
     return this.http
-      .post(`${API.ROTAS_API}endereco`, endereco);
+      .post(`${API.SPRING_API}enderecos`, endereco);
   }
 
   putEndereco(endereco, cpf) {
     return this.http
-      .put(`${API.ROTAS_API}endereco/${cpf}`, endereco);
+      .put(`${API.ROTAS_API}enderecos/${cpf}`, endereco);
   }
 
 

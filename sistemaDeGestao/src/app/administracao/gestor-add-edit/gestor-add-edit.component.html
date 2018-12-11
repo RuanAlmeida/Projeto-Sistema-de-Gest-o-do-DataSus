@@ -3,64 +3,51 @@
     <div class="row ">
       <sui-tabset>
         <div class="ui top attached tabular menu">
-          <a class="item" suiTabHeader="0" [(isActive)]="empresaActive">Empresa</a>
-          <a class="item" suiTabHeader="1" [(isActive)]="gestorActive">Gestor</a>
-          <a class="item" suiTabHeader="2" [(isActive)]="enderecoActive">Endereço</a>
-          <a class="item" suiTabHeader="3" [(isActive)]="contatoActive">Contato</a>
-          <a class="item" suiTabHeader="4" [(isActive)]="instActive">Instituições</a>
-          <a class="item" suiTabHeader="5" [(isActive)]="perfilActive">Perfil</a>
+          <a class="item" suiTabHeader="0" [(isActive)]="enderecoEmpresaActive">Empresa do Gestor</a>
+          <a class="item" suiTabHeader="1" [(isActive)]="enderecoGestorActive">Dados do Gestor</a>
+          <!-- <a class="item" suiTabHeader="2" [(isActive)]="enderecoActive">Endereço</a> -->
+          <a class="item" suiTabHeader="3" [(isActive)]="contatoActiveActive">Contato</a>
+          <a class="item" suiTabHeader="4" [(isActive)]="instActiveActive">Instituições</a>
+          <a class="item" suiTabHeader="5" [(isActive)]="perfilActiveActive">Perfil</a>
         </div>
 
+        <!-- {
+         "dsComplemento": "string",
+  "dsEndereco": "string",
+  "dsRazaoSocial": "string",
+  "idEmpresaGestor": 0,
+  "idIbge": 5300108,
+  "nrCep": "string",
+  "nrCnes": "string",
+  "nrCnpj": 33355,
+  "nrEndereco": "string"
+        } -->
 
-        <!--incio da aba empresa-->
+        <!--incio da aba trabalho do gestor-->
         <div class="ui bottom attached segment" suiTabContent="0">
-          <form class="ui form" #fAddEmpresa="ngForm">
-            <!--<h4 class="ui dividing header">Shipping Information</h4>-->
+          <form class="ui form" #fAddEndereco="ngForm">
+
 
             <div class="field">
               <div class="three fields">
                 <div class="field">
-                  <label>CNPJ</label>
-                  <input class="ui dropdown" name="cnpj" [(ngModel)]="empresa.cnpj" required>
+                  <label for="dsEndereco">Endereço</label>
+                  <input id="dsEndereco" type="text" name="dsEndereco" [(ngModel)]="enderecoEmpresa.dsEndereco"
+                    required>
                 </div>
+
                 <div class="field">
-                  <label>N° CNES</label>
-                  <input class="ui dropdown" name="num_cnes" [(ngModel)]="empresa.num_cnes">
+                  <label for="dsCompleto">Complemento</label>
+                  <input id="dsComplemento" type="text" name="dsComplemento" [(ngModel)]="enderecoEmpresa.dsComplemento"
+                    required>
                 </div>
+
                 <div class="field">
-                  <label>Razão social</label>
-                  <input class="ui dropdown" name="razao_social" [(ngModel)]="empresa.razao_social" required>
+                  <label for="nrEndereco">Nº</label>
+                  <input id="nrEndereco" type="tel" name="nrEndereco" [(ngModel)]="enderecoEmpresa.nrEndereco" required>
                 </div>
 
-              </div>
-            </div>
-
-
-
-            <!-- <div class="ui section divider"></div> -->
-
-
-            <div class="field">
-              <div class="four fields">
                 <div class="field">
-                  <label>Endereço</label>
-                  <input class="ui dropdown" name="endereco" [(ngModel)]="empresa.endereco">
-                </div>
-                <div class="eight wide field">
-                  <label>Complemento</label>
-                  <input class="ui dropdown" name="complemento" [(ngModel)]="empresa.complemento">
-                </div>
-                <div class="field">
-                  <label>Número</label>
-                  <input class="ui dropdown" name="numero" [(ngModel)]="empresa.numero">
-                </div>
-              </div>
-            </div>
-
-            <div class="field">
-              <div class="fields">
-
-                <div class="eight wide field">
                   <label>Estado</label>
                   <select class="ui dropdown" name="estado" ngModel (ngModelChange)="selectUfLocal($event)">
                     <option value="">Selecione Estado</option>
@@ -68,27 +55,212 @@
                   </select>
                 </div>
 
-                <div class="eight wide field">
+                <div class="field">
                   <label>Município</label>
-                  <select class="ui dropdown" name="idibge" [(ngModel)]="empresa.idibge" required>
+                  <select class="ui dropdown" name="municipio" [(ngModel)]="enderecoEmpresa.municipio" required>
                     <option value="">Selecione Município</option>
                     <option *ngFor="let municipio of municipiosLocal" value="{{municipio.idibge}}">{{municipio.descricao}}</option>
                   </select>
                 </div>
 
-                <div class="eight wide field">
+
+                <div class="field">
                   <label>CEP</label>
-                  <input class="ui dropdown" name="cep" [(ngModel)]="empresa.cep">
+                  <input class="ui dropdown" name="nrCep" [(ngModel)]="enderecoEmpresa.nrCep">
                 </div>
 
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="three fields">
+                <div class="field">
+                  <label>CNPJ</label>
+                  <input class="ui dropdown" name="nrCnpj" [(ngModel)]="enderecoEmpresa.nrCnpj" required>
+                </div>
+                <div class="field">
+                  <label>N° CNES</label>
+                  <input class="ui dropdown" name="nrCnes" [(ngModel)]="enderecoEmpresa.nrCnes">
+                </div>
+                <div class="field">
+                  <label>Razão social</label>
+                  <input class="ui dropdown" name="dsRazaoSocial" [(ngModel)]="enderecoEmpresa.dsRazaoSocial" required>
+                </div>
+                <div class="field">
+                  <label>Empresa de Trabalho</label>
+                  <select class="ui dropdown" name="idEmpresaGestor" [(ngModel)]="enderecoEmpresa.empresa" required>
+                    <option value="">Empresa de Trabalhoo</option>
+                    <option *ngFor="let empresa of empresasIquality" value="{{empresa}}">{{empresa}}</option>
+                  </select>
+                </div>
 
               </div>
             </div>
 
 
+            <div class="ui stackable two column grid">
+              <div class="column">
+                <button class="ui left labeled icon button" (click)="gestorActive = true; backGestor()">
+                  <i class="angle double left icon"></i>Voltar</button>
+              </div>
+              <div class="column">
+                <button class="ui right labeled icon button right floated" (click)="salvarEmpresa(enderecoEmpresa)">
+                  <i class="angle double right icon"></i>Próximo</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!--fim da aba trabalho do gestor-->
 
 
 
+
+        <!-- {
+{
+       "dsCargo": "string",
+          "dsComplemento": "string",
+          "dsLogin": "string",
+          "idEmmpresagestor": 0,
+          "idIbge": 5300108,
+          "nome": "string",
+          "nrCep": "string",
+          "nrCpf": "string",
+          "nrEndereco": "string",
+          "nrPassword": "string"
+}
+        } -->
+        <!--incio da aba gestor-->
+        <div class="ui bottom attached segment" suiTabContent="1">
+          <form class="ui form" #fAddGestor="ngForm">
+
+            <div class="field">
+              <div class="three fields">
+                <div class="field">
+                  <label for="dsEndereco">Endereço</label>
+                  <input id="dsEndereco" type="text" name="dsEndereco" [(ngModel)]="gestor.dsEndereco" required>
+                </div>
+
+                <div class="field">
+                  <label for="dsCompleto">Complemento</label>
+                  <input id="dsComplemento" type="text" name="dsComplemento" [(ngModel)]="gestor.dsComplemento"
+                    required>
+                </div>
+
+                <div class="field">
+                  <label for="nrEndereco">Nº</label>
+                  <input id="nrEndereco" type="tel" name="nrEndereco" [(ngModel)]="gestor.nrEndereco" required>
+                </div>
+
+                <div class="field">
+                  <label>Estado</label>
+                  <select class="ui dropdown" name="estado" ngModel (ngModelChange)="selectUfLocal($event)">
+                    <option value="">Selecione Estado</option>
+                    <option *ngFor="let uf of ufsLocal" value="{{uf.uf}}">{{uf.uf}}</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label>Município</label>
+                  <select class="ui dropdown" name="municipio" [(ngModel)]="gestor.municipio" required>
+                    <option value="">Selecione Município</option>
+                    <option *ngFor="let municipio of municipiosLocal" value="{{municipio.idibge}}">{{municipio.descricao}}</option>
+                  </select>
+                </div>
+
+
+                <div class="field">
+                  <label>CEP</label>
+                  <input class="ui dropdown" name="nrCep" [(ngModel)]="gestor.nrCep">
+                </div>
+
+              </div>
+            </div>
+
+
+            <div class="field">
+              <div class="four fields">
+                <div class="field">
+                  <label>Descrição do cargo</label>
+                  <input type="text" name="dsCargo" placeholder="dsCargo" [(ngModel)]="gestor.dsCargo" #dsCargo>
+                </div>
+                <div class="field">
+                  <label>Descrição do gestor</label>
+                  <input type="text" name="dsGestor" placeholder="dsGestor" [(ngModel)]="gestor.dsGestor" #dsGestor>
+                </div>
+                <div class="field">
+                  <label>Login</label>
+                  <input type="text" name="dsLogin" placeholder="login" [(ngModel)]="gestor.dsLogin" #dsLogin>
+                </div>
+                <!-- <div class="field">
+                    <label>Empresa</label>
+                    <select class="ui dropdown" name="estado" ngModel (ngModelChange)="selectUfLocal($event)">
+                      <option value="">Selecione Estado</option>
+                      <option *ngFor="let uf of ufsLocal" value="{{uf.uf}}">{{uf.uf}}</option>
+                    </select>
+                  </div> -->
+              </div>
+            </div>
+
+            <div class="field">
+              <div class=" four fields">
+                <div class="field">
+                  <label>nome</label>
+                  <input type="text" name="nome" placeholder="nome" [(ngModel)]="gestor.nome" #dsLogin>
+                </div>
+                <div class="field">
+                  <label>CPF</label>
+                  <input type="text" name="login" placeholder="nrCpf" [(ngModel)]="gestor.nrCpf" #dsLogin>
+                </div>
+                <div class="field">
+                  <label>Password</label>
+                  <input type="text" name="nrPassword" placeholder="nrPassword" [(ngModel)]="gestor.nrPassword"
+                    #nrPassword>
+                </div>
+                <div class="field">
+                  <label>Confirmar Password</label>
+                  <input type="text" placeholder="passConf" #passConf>
+                </div>
+              </div>
+            </div>
+            <div class="ui stackable one column grid">
+              <div class="column">
+                <button class="ui left labeled icon button left floated btn-color" (click)="backEmpresa(fAddGestor); empresaActive = true">
+                  <i class="angle double left icon"></i> Voltar
+                </button>
+                <button class="ui right labeled icon button right floated btn-color" (click)="salvarGestor(gestor)">
+                  <i class="angle double right icon"></i> Próximo
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+        <!--fim da aba gestor-->
+
+
+
+        <!--incio da aba empresa-->
+        <div class="ui bottom attached segment" suiTabContent="1">
+          <form class="ui form" #fAddEmpresa="ngForm">
+            <!--<h4 class="ui dividing header">Shipping Information</h4>-->
+            <div class="field">
+              <div class="two fields">
+
+                <div class="field">
+                  <label>Login</label>
+                  <input type="text" name="login" placeholder="login" [(ngModel)]="gestor.login" #login>
+                </div>
+                <div class="field">
+                  <label>Password</label>
+                  <input type="text" name="password" placeholder="password" [(ngModel)]="gestor.password" #password>
+                </div>
+                <div class="field">
+                  <label>Confirmar Password</label>
+                  <input type="text" placeholder="passConf" #passConf>
+                </div>
+
+              </div>
+            </div>
             <div class="ui stackable one column grid">
               <div class="column">
                 <button class="ui left labeled icon button left floated btn-color" (click)="cancelarEmpresa(fAddEmpresa)">
@@ -107,145 +279,24 @@
 
 
 
-        <!--incio da aba gestor-->
-        <div class="ui bottom attached segment" suiTabContent="1">
-          <form class="ui form" #fAddGestor="ngForm">
-            <h4 class="ui dividing header">Shipping Information</h4>
-
-
-
-            <div class="field">
-              <div class="three fields">
-
-                <div class="field">
-                  <label>Nome</label>
-                  <input type="text" name="nome" placeholder="Nome" [(ngModel)]="gestor.nome" #nome>
-                </div>
-
-                <div class="field">
-                  <label>CPF</label>
-                  <input type="text" name="cpf" placeholder="cpf" [(ngModel)]="gestor.cpf" #inep>
-                </div>
-
-                <div class="field">
-                  <label>Cargo</label>
-                  <input type="text" name="cargo" placeholder="cargo" [(ngModel)]="gestor.cargo" #cargo>
-                </div>
-
-              </div>
-            </div>
-
-
-            <div class="field">
-              <div class="two fields">
-
-                <div class="field">
-                  <label>Login</label>
-                  <input type="text" name="login" placeholder="login" [(ngModel)]="gestor.login" #login>
-                </div>
-                <div class="field">
-                  <label>Password</label>
-                  <input type="text" name="password" placeholder="password" [(ngModel)]="gestor.password" #password>
-                </div>
-                <div class="field">
-                  <label>Confirmar Password</label>
-                  <input type="text" placeholder="passConf" #passConf>
-                </div>
-
-
-              </div>
-            </div>
-
-
-            <div class="ui stackable one column grid">
-              <div class="column">
-                <button class="ui left labeled icon button left floated btn-color" (click)="backEmpresa(fAddGestor); empresaActive = true">
-                  <i class="angle double left icon"></i> Voltar
-                </button>
-                <button class="ui right labeled icon button right floated btn-color" (click)="salvarGestor(fAddGestor)">
-                  <i class="angle double right icon"></i> Próximo
-                </button>
-              </div>
-            </div>
-          </form>
-
-        </div>
-        <!--fim da aba gestor-->
-
-        <!--incio da aba Endereço-->
-        <div class="ui bottom attached segment" suiTabContent="2">
-          <form class="ui form" #fAddEndereco="ngForm">
-
-            <div class="field">
-              <div class="fields">
-
-                <div class="eight wide field">
-                  <label for="endereco">Endereco</label>
-                  <input id="endereco" type="text"  name="endereco" [(ngModel)]="endereco.endereco" required>
-                </div>
-
-                <div class="two wide field">
-                  <label for="numero">Nº</label>
-                  <input id="numero" type="tel"  name="numero" [(ngModel)]="endereco.numero" required>
-                </div>
-
-                <div class="three wide field">
-                  <label for="bairro">Bairro</label>
-                  <input id="bairro" type="text"  name="bairro" [(ngModel)]="endereco.bairro" required>
-                </div>
-
-                <div class="three wide field">
-                  <label for="cep">CEP</label>
-                  <input id="cep" type="text"  name="cep" [(ngModel)]="endereco.cep" required>
-                </div>
-
-              </div>
-
-            </div>
-            <div class="field">
-
-              <div class="four fields">
-                <div class="eight wide field">
-                  <label for="complemento">Complemento</label>
-                  <input id="complemento" type="text"  name="complemento" [(ngModel)]="endereco.complemento" required>
-                </div>
-
-
-                <div class="field">
-                  <label>Estado</label>
-                  <select class="ui dropdown" [(ngModel)]="endereco.uf" name="uf" (ngModelChange)="selectUfLocal($event)" required>
-                    <option value="">Selecione Estado</option>
-                    <option *ngFor="let uf of ufsLocal" value="{{uf.uf}}">{{uf.uf}}</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label>Município</label>
-                  <select class="ui dropdown" name="idibge" [(ngModel)]="endereco.idibge" required>
-                    <option value="">Selecione Município</option>
-                    <option *ngFor="let municipio of municipiosLocal" value="{{municipio.idibge}}">{{municipio.descricao}}</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="ui stackable two column grid">
-              <div class="column">
-                <button class="ui left labeled icon button" (click)="gestorActive = true; backGestor()">
-                  <i class="angle double left icon"></i>Voltar</button>
-              </div>
-              <div class="column">
-                <button class="ui right labeled icon button right floated" (click)="salvarEndereco(fAddEndereco)">
-                  <i class="angle double right icon"></i>Próximo</button>
-              </div>
-            </div>
-          </form>
-        </div>
-        <!--fim da aba Endereço-->
-
 
         <!--incio da aba Contato-->
-
+        <!-- {
+          "emails": [
+            {
+              "dsEmail": "string",
+              "idEmail": 0
+            }
+          ],
+          "idGestor": 2,
+          "telefones": [
+            {
+              "dsTelefone": "string",
+              "idTelefone": 0,
+              "tpTelefone": "string"
+            }
+          ]
+        } -->
 
         <div class="ui bottom attached segment" suiTabContent="3">
           <form class="ui form" #fAddContato="ngForm">
@@ -253,13 +304,14 @@
               <div class="fields">
 
                 <div class="six wide field">
-                  <label for="endereco">E-mail</label>
-                  <input type="text" class="validate" name="email" [(ngModel)]="contato.email" required>
+                  <label for="dsEmail">E-mail</label>
+                  <input type="text" class="validate" name="dsEmail" [(ngModel)]="contato.dsEmail" required>
                 </div>
 
                 <div class="three wide field">
-                  <label for="tipo">tipo de telefone</label>
-                  <select class="ui dropdown" [(ngModel)]="contato.tipo" name="tipo">
+                  
+                  <label for="tpTelefone">tipo de telefone</label>
+                  <select class="ui dropdown" [(ngModel)]="contato.tpTelefone" name="tpTelefone">
                     <option value="F">Fixo</option>
                     <option value="M">Movel</option>
                   </select>
@@ -267,11 +319,11 @@
 
                 <div class="three wide field">
                   <label for="Telefone">Telefone</label>
-                  <input id="numero" type="tel" class="validate" name="telefone" [(ngModel)]="contato.telefone">
+                  <input id="numero" type="tel" class="validate" name="dsTelefone" [(ngModel)]="contato.dsTelefone">
                 </div>
 
                 <div class="four wide field">
-                  <button class="ui google plus labeled icon button" (click)="salvarContato(fAddContato)">
+                  <button class="ui google plus labeled icon button" (click)="adicionarContato(fAddContato)">
                     <i class="plus icon"></i>
                     Adicionar Contato
                   </button>
@@ -291,7 +343,7 @@
                     Tipo de telefone
                   </th>
                   <th class="ui center aligned collapsing">
-                    Telefone 
+                    Telefone
                   </th>
 
                   <th class="ui center aligned collapsing">
@@ -304,16 +356,19 @@
                   <td>{{contatoGestor.email}}</td>
                   <td>{{contatoGestor.tipo}}</td>
                   <td>{{contatoGestor.telefone}}</td>
-                
+
 
                   <td class="ui center aligned collapsing">
-                    <a class="ui icon button circular" [routerLink]="['']" suiPopup popupHeader="Visualizar" popupInverted="true">
-                        <i class="search icon"></i>
-                      </a> 
-                    <a class="mini ui icon button circular" [routerLink]="['edit', gestor.cpf]" suiPopup popupHeader="Editar" popupInverted="true">
+                    <a class="ui icon button circular" [routerLink]="['']" suiPopup popupHeader="Visualizar"
+                      popupInverted="true">
+                      <i class="search icon"></i>
+                    </a>
+                    <a class="mini ui icon button circular" [routerLink]="['edit', gestor.cpf]" suiPopup popupHeader="Editar"
+                      popupInverted="true">
                       <i class="pencil alternate icon"></i>
                     </a>
-                    <a class="mini ui icon button circular" (click)="removerGestor(gestor.cpf, i)" suiPopup popupHeader="Remover" popupInverted="true">
+                    <a class="mini ui icon button circular" (click)="removerGestor(gestor.cpf, i)" suiPopup popupHeader="Remover"
+                      popupInverted="true">
                       <i class="trash alternate icon"></i>
                     </a>
                   </td>
@@ -325,8 +380,8 @@
 
                   <th colspan="7">
                     <div class="ui right floated pagination menu">
-                      <sui-pagination [collectionSize]='totalItens' [pageSize]="numeroPagina" [maxSize]="10" [hasEllipses]="true" [(page)]="select"
-                        (click)="page(select)">
+                      <sui-pagination [collectionSize]='totalItens' [pageSize]="numeroPagina" [maxSize]="10"
+                        [hasEllipses]="true" [(page)]="select" (click)="page(select)">
 
                       </sui-pagination>
                     </div>
@@ -343,7 +398,7 @@
                   <i class="angle double left icon"></i>Voltar</button>
               </div>
               <div class="column">
-                <button class="ui right labeled icon button right floated" (click)="instActive = true;">
+                <button class="ui right labeled icon button right floated" (click)="instActive = true;salvarContato();">
                   <i class="angle double right icon"></i>Próximo</button>
               </div>
             </div>
@@ -360,7 +415,8 @@
               <div class="fields">
                 <div class="four wide field">
                   <label>Estado</label>
-                  <select class="ui dropdown" name="uf" [(ngModel)]="instituicao.uf" (ngModelChange)="selectUf($event)" #uf required>
+                  <select class="ui dropdown" name="uf" [(ngModel)]="instituicao.uf" (ngModelChange)="selectUf($event)"
+                    #uf required>
                     <option value="">Selecione Estado</option>
                     <option *ngFor="let uf of ufs" value="{{uf.id_uf}}">{{uf.no_uf_completo}}</option>
                   </select>
@@ -368,8 +424,8 @@
 
                 <div class="six wide field">
                   <label>Municipio</label>
-                  <select class="ui dropdown" name="municipio" [(ngModel)]="instituicao.municipio" (ngModelChange)="getBairros($event)" #municipio
-                    required>
+                  <select class="ui dropdown" name="municipio" [(ngModel)]="instituicao.municipio" (ngModelChange)="getBairros($event)"
+                    #municipio required>
                     <option value="">Selecione municipio</option>
                     <option *ngFor="let municipio of municipios" value="{{municipio.id_municipio}}">{{municipio.no_mun_completo}}</option>
                   </select>
@@ -391,8 +447,8 @@
 
                 <div class="four wide field">
                   <label>Tipo de Instituição</label>
-                  <select class="ui dropdown" name="tipInst" [(ngModel)]="instituicao.tipInst" (ngModelChange)="getInsts(instituicao)" #tipInst
-                    required>
+                  <select class="ui dropdown" name="tipInst" [(ngModel)]="instituicao.tipInst" (ngModelChange)="getInsts(instituicao)"
+                    #tipInst required>
                     <option value="">Selecione</option>
                     <option *ngFor="let tipInst of tipInsts" value="{{tipInst.id_tipo_unidade}}">{{tipInst.ds_tipo_unidade}}</option>
                   </select>
@@ -400,7 +456,8 @@
 
                 <div class="eight wide field">
                   <label>Instituição de Saúde</label>
-                  <select class="ui dropdown" name="idInstituicao_saude" [(ngModel)]="instituicao.idInstituicao_saude" #instSau required>
+                  <select class="ui dropdown" name="idInstituicao_saude" [(ngModel)]="instituicao.idInstituicao_saude"
+                    #instSau required>
                     <option value="">Selecione</option>
                     <option *ngFor="let instSau of instsSau" value="{{instSau.id_unidade}}">{{instSau.no_fantasia}}</option>
                   </select>
@@ -446,7 +503,8 @@
                         <td>None</td>
                         <td>None</td>
                         <td>
-                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover" popupInverted="true" (click)="deletarEmpresa(empresa)">
+                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover"
+                            popupInverted="true" (click)="deletarEmpresa(empresa)">
                             <i class="trash alternate icon"></i>
                           </a>
                         </td>
@@ -457,7 +515,8 @@
                         <td>None</td>
                         <td>None</td>
                         <td>
-                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover" popupInverted="true" (click)="deletarEmpresa(empresa)">
+                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover"
+                            popupInverted="true" (click)="deletarEmpresa(empresa)">
                             <i class="trash alternate icon"></i>
                           </a>
                         </td>
@@ -468,7 +527,8 @@
                         <td>None</td>
                         <td>None</td>
                         <td>
-                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover" popupInverted="true" (click)="deletarEmpresa(empresa)">
+                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover"
+                            popupInverted="true" (click)="deletarEmpresa(empresa)">
                             <i class="trash alternate icon"></i>
                           </a>
                         </td>
@@ -507,9 +567,12 @@
 
             <div class="one column centered row">
               <div class="ui buttons">
-                <button class="ui google plus button" value="existente" (click)="ativarFuncionalidade(existente.value)" #existente>Selecionar um perfil já existente</button>
+                <button class="ui google plus button" value="existente" (click)="ativarFuncionalidade(existente.value)"
+                  #existente>Selecionar
+                  um perfil já existente</button>
                 <div class="or" data-text="ou"></div>
-                <button class="ui google plus button" value="novo" (click)="ativarFuncionalidade(novo.value)" #novo>Criar um novo perfil</button>
+                <button class="ui google plus button" value="novo" (click)="ativarFuncionalidade(novo.value)" #novo>Criar
+                  um novo perfil</button>
               </div>
             </div>
 
@@ -660,7 +723,8 @@
                         <td>John</td>
                         <td>Approved</td>
                         <td>
-                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover" popupInverted="true" (click)="deletarEmpresa(empresa)">
+                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover"
+                            popupInverted="true" (click)="deletarEmpresa(empresa)">
                             <i class="trash alternate icon"></i>
                           </a>
                         </td>
@@ -669,7 +733,8 @@
                         <td>Jamie</td>
                         <td>Approved</td>
                         <td>
-                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover" popupInverted="true" (click)="deletarEmpresa(empresa)">
+                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover"
+                            popupInverted="true" (click)="deletarEmpresa(empresa)">
                             <i class="trash alternate icon"></i>
                           </a>
                         </td>
@@ -678,7 +743,8 @@
                         <td>Jill</td>
                         <td>Denied</td>
                         <td>
-                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover" popupInverted="true" (click)="deletarEmpresa(empresa)">
+                          <a class="mini ui google plus icon button circular" suiPopup popupHeader="Remover"
+                            popupInverted="true" (click)="deletarEmpresa(empresa)">
                             <i class="trash alternate icon"></i>
                           </a>
                         </td>
@@ -693,7 +759,8 @@
 
           <div class="ui stackable four column grid">
 
-            <div class="column" *ngFor="let tipologia of tipologiasGuardadas" suiPopup popupText="Remover Tipologia" popupInverted [popupPlacement]="'top left'">
+            <div class="column" *ngFor="let tipologia of tipologiasGuardadas" suiPopup popupText="Remover Tipologia"
+              popupInverted [popupPlacement]="'top left'">
               <a class="ui button btn-tipologia" (click)="openModal(tipologia)">{{tipologia.nome}}</a>
             </div>
 

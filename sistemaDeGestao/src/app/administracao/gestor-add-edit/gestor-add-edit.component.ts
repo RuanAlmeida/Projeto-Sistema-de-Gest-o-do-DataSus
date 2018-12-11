@@ -29,38 +29,65 @@ export class GestorAddEditComponent implements OnInit {
 
   // declarações da aba Empresa
   empresa = {
-    cnpj: '',
-    num_cnes: '',
-    razao_social: '',
-    endereco: '',
-    complemento: '',
-    numero: '',
-    cep: '',
-    idibge: '',
-    bairro: ''
+    endereco: ''
+    // idEmpresa: ''
+    // cnpj: '',
+    // num_cnes: '',
+    // razao_social: '',
+    // endereco: '',
+    // complemento: '',
+    // numero: '',
+    // cep: '',
+    // idibge: '',
+    // bairro: ''
   };
 
 
-  // declarações da aba Gestor
-  gestor = {
-    nome: '',
-    cpf: '',
-    login: '',
-    password: '',
-    cargo: '',
-    instituicao: '',
-    cnpj: ''
+  enderecoEmpresa = {
+
   };
+
   // declarações da aba endereço
   endereco = {
-    endereco: '',
-    numero: '',
-    bairro: '',
-    complemento: '',
-    cep: '',
-    uf: '',
-    municipio: ''
+    empresagestores: 0,
+    gestor: 0,
+    idEndereco: 0
+    // numero: '',
+    // bairro: '',
+    // complemento: '',
+    // cep: '',
+    // uf: '',
+    // municipio: ''
   };
+
+  enderecoGestor = {
+
+  };
+
+  // {
+  //   "contato": 0,
+  //   "dsEmail": [
+  //     "string"
+  //   ],
+  //   "dsTelefone": [
+  //     "string"
+  //   ],
+  //   "idEmail": [
+  //     0
+  //   ],
+  //   "idGestor": 0,
+  //   "idTelefone": [
+  //     0
+  //   ],
+  //   "tipoContato": "string",
+  //   "tpTelefone": [
+  //     "string"
+  //   ]
+  // }
+
+  // declarações da aba Gestor
+  gestor = {};
+
   // declarações da aba Contato
   contato = {
     email: '',
@@ -97,9 +124,9 @@ export class GestorAddEditComponent implements OnInit {
   };
 
   // declarações das váriaveis das abas
-  public empresaActive = true;
+  public empresaActive = false;
   public gestorActive = false;
-  public enderecoActive = false;
+  public enderecoActive = true;
   public contatoActive = false;
   public instActive = false;
   public perfilActive = false;
@@ -113,6 +140,7 @@ export class GestorAddEditComponent implements OnInit {
   tipoInstsAbaInst: any;
   ufsAbaInst: any;
 
+  empresasIquality = [1, 2, 3, 4];
   municipiosAbaInst: any;
   bairros: Object;
   tipInsts: Object;
@@ -120,7 +148,9 @@ export class GestorAddEditComponent implements OnInit {
   cnpj: any;
   cpf: any;
   idEnderecosEmpresa: any;
-  idGestores: any;
+  idGestor: any;
+  telefones: any = [];
+  emails: any = [];
 
   constructor(
     private appService: AppService,
@@ -144,15 +174,58 @@ export class GestorAddEditComponent implements OnInit {
     }
   }
 
+
+  // -----------  INICIO ABA ENDEREÇO ------------------
+
+  // função para Salvar os endereço do gestor
+  salvarEndereco(fAddEndereco) {
+    if (fAddEndereco.status !== 'INVALID') {
+      if (this.putPermitido) {
+        // this.putPermitido = false;
+        // this.administracaoService.putEndereco(fAddEndereco.value, this.paramsById()).subscribe(
+        //   res => {
+        //     // this.getContatoById();
+        //     this.contatoActive = true;
+        //   },
+        //   erro => {
+        //     console.log(erro);
+        //   }
+        // );
+      } else {
+        console.log(this.empresa, this.endereco);
+        this.administracaoService.postEndereco(fAddEndereco).subscribe(
+          (res: String) => {
+            this.paramsByPost = res;
+            this.empresa.endereco = this.paramsByPost;
+
+            console.log(res);
+            this.salvarEmpresa(this.empresa);
+            this.contatoActive = true;
+          },
+          erro => {
+            console.log(erro);
+          }
+        );
+      }
+      // this.getContatoById();
+    } else {
+      console.log('campos inválidos');
+    }
+  }
+
+  // -----------  FIM ABA ENDEREÇO ------------------
+
+
   // -----------    ABA EMPRESA ------------------
 
 
   // função para Salvar os dados da empresa do gestor
-  salvarEmpresa(fAddEmpresa) {
-    if (fAddEmpresa.status !== 'INVALID') {
+  salvarEmpresa(enderecoEmpresa) {
+    if (enderecoEmpresa.status !== 'INVALID') {
       if (this.params.id) {
-        this.administracaoService.putEmpresa(fAddEmpresa.value, this.params.id).subscribe(
+        this.administracaoService.putEmpresa(enderecoEmpresa.value, this.params.id).subscribe(
           res => {
+            console.log(res);
             // this.getGestorById();
             this.gestorActive = true;
           },
@@ -161,10 +234,9 @@ export class GestorAddEditComponent implements OnInit {
           }
         );
       } else {
-        this.cnpj = fAddEmpresa.value.cnpj;
-        this.administracaoService.postEmpresa(fAddEmpresa.value).subscribe(
-          res => {
-            this.idEnderecosEmpresa = res[0].insertId;
+        console.log(enderecoEmpresa);
+        this.administracaoService.postEmpresa(enderecoEmpresa.value).subscribe(
+          (res: String) => {
             this.gestorActive = true;
           },
           erro => {
@@ -214,10 +286,10 @@ export class GestorAddEditComponent implements OnInit {
   // -----------   ABA GESTOR ------------------
 
   // função para Salvar os dados básicos gestor
-  salvarGestor(fAddGestor) {
-    if (fAddGestor.status !== 'INVALID') {
+  salvarGestor(gestor) {
+    if (gestor.status !== 'INVALID') {
       if (this.params.id) {
-        this.administracaoService.putGestor(fAddGestor.value, this.params.id).subscribe(
+        this.administracaoService.putGestor(gestor.value, this.params.id).subscribe(
           res => {
             // this.getGestorEndereco();
             this.enderecoActive = true;
@@ -227,13 +299,12 @@ export class GestorAddEditComponent implements OnInit {
           }
         );
       } else {
-        this.cpf = fAddGestor.value.cpf;
-        fAddGestor.value.cnpj = this.cnpj;
-        fAddGestor.value.idEnderecos = this.idEnderecosEmpresa;
-        console.log(this.cpf);
-        this.administracaoService.postGestor(fAddGestor.value).subscribe(
+        // this.salvarEndereco(this.enderecoGestor);
+        // this.gestor.empresagestor = this.idEnderecosEmpresa;
+        // gestor.endereco = this.paramsByPost;
+        this.administracaoService.postGestor(gestor).subscribe(
           res => {
-            this.idGestores = res;
+            this.idGestor = res;
             this.enderecoActive = true;
           },
           erro => {
@@ -249,76 +320,56 @@ export class GestorAddEditComponent implements OnInit {
   // -----------  FIM  ABA GESTOR ------------------
 
 
-  // -----------  INICIO ABA ENDEREÇO ------------------
-
-  // função para Salvar os endereço do gestor
-  salvarEndereco(fAddEndereco) {
-    if (fAddEndereco.status !== 'INVALID') {
-      if (this.putPermitido) {
-        // this.putPermitido = false;
-        // this.administracaoService.putEndereco(fAddEndereco.value, this.paramsById()).subscribe(
-          //   res => {
-            //     // this.getContatoById();
-            //     this.contatoActive = true;
-            //   },
-            //   erro => {
-              //     console.log(erro);
-              //   }
-              // );
-            } else {
-              fAddEndereco.value.cpf = this.paramsById();
-              this.administracaoService.postEndereco(fAddEndereco.value).subscribe(
-                res => {
-                  console.log(res);
-                  this.paramsByPost = res;
-                  this.contatoActive = true;
-                },
-                erro => {
-                  console.log(erro);
-                }
-              );
-            }
-            // this.getContatoById();
-    } else {
-      console.log('campos inválidos');
-    }
-  }
-
-  // -----------  FIM ABA ENDEREÇO ------------------
-
-
   // -----------  INICIO ABA CONTATOS ------------------
 
   // função para Salvar os contatos do gestor
-  salvarContato(fAddContato) {
-    if (fAddContato.status !== 'INVALID') {
-      fAddContato.value.idGestores = this.idGestores.insertId;
-      this.administracaoService.postContato(fAddContato.value).subscribe(
-        res => {
-          console.log(res);
-          this.getContatoById(this.idGestores.insertId);
-        },
-        erro => {
-          console.log(erro);
-        }
-      );
-      // this.getAbaInstituicoes();
-    } else {
-      console.log('campos inválidos');
-    }
+  salvarContato() {
+    // if (fAddContato.status !== 'INVALID') {
+    console.log('contato');
+
+    this.idGestor = 3;
+
+    // tslint:disable-next-line:prefer-const
+    let form = {
+      idGestor: null,
+      emails: null,
+      telefones: null
+    };
+    form.idGestor = this.idGestor;
+    form.emails = this.telefones;
+    form.telefones = this.emails;
+    console.log(form);
+    this.administracaoService.postContato(form).subscribe(
+      res => {
+        console.log(res);
+        // this.getContatoById(this.idGestor.insertId);
+      },
+      erro => {
+        console.log(erro);
+      }
+    );
+    // this.getAbaInstituicoes();
+    // } else {
+    //   console.log('campos inválidos');
+    // }
   }
 
 
-    getContatoById(idGestores) {
-      this.administracaoService.getContatoId(idGestores).subscribe(
-        res => {
-          console.log(res);
-          this.contatosGestor = res;
-        },
-        erro => {
-          console.log(erro);
-        }
-      );
+  getContatoById(idGestor) {
+    this.administracaoService.getContatoId(idGestor).subscribe(
+      res => {
+        console.log(res);
+        this.contatosGestor = res;
+      },
+      erro => {
+        console.log(erro);
+      }
+    );
+  }
+
+  adicionarContato(form) {
+    this.telefones.push({ dsTelefone: form.value.dsTelefone, tpTelefone: form.value.tpTelefone });
+    this.emails.push({ dsEmail: form.value.dsEmail });
   }
 
 
@@ -328,18 +379,18 @@ export class GestorAddEditComponent implements OnInit {
 
   // // função para Salvar os contatos do gestor
   // salvarInstituicao(fAddInstituicao) {
-    //   if (fAddInstituicao.status !== 'INVALID') {
+  //   if (fAddInstituicao.status !== 'INVALID') {
   //     fAddInstituicao = this.correcaoInstituicao();
   //     // if (this.putPermitido) {
   //     //   this.putPermitido = false;
   //     //   this.administracaoService.putInstituicao(fAddInstituicao.value, this.paramsById()).subscribe(
-    //     //     res => {
+  //     //     res => {
   //     //       this.perfilActive = true;
   //     //     },
   //     //     erro => {
-    //     //       console.log(erro);
-    //     //     }
-    //     //   );
+  //     //       console.log(erro);
+  //     //     }
+  //     //   );
   //     // } else {
   //     this.administracaoService.postInstituicao(fAddInstituicao).subscribe(
   //       res => {
