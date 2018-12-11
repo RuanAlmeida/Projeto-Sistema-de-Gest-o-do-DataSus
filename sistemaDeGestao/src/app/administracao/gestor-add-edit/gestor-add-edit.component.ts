@@ -151,6 +151,7 @@ export class GestorAddEditComponent implements OnInit {
   idGestor: any;
   telefones: any = [];
   emails: any = [];
+  emailsTelefone: any = [];
 
   constructor(
     private appService: AppService,
@@ -370,6 +371,13 @@ export class GestorAddEditComponent implements OnInit {
   adicionarContato(form) {
     this.telefones.push({ dsTelefone: form.value.dsTelefone, tpTelefone: form.value.tpTelefone });
     this.emails.push({ dsEmail: form.value.dsEmail });
+    this.emailsTelefone.push({dsTelefone: form.value.dsTelefone, tpTelefone: form.value.tpTelefone, dsEmail: form.value.dsEmail});
+  }
+
+  removerContatos(index) {
+    this.telefones.splice(index, 1);
+    this.emails.splice(index, 1);
+    this.emailsTelefone.splice(index, 1);
   }
 
 

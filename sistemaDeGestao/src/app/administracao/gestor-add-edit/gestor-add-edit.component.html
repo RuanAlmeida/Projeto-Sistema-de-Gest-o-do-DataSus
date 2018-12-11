@@ -352,10 +352,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let contatoGestor of  contatosGestor" class="ui center aligned collapsing">
-                  <td>{{contatoGestor.email}}</td>
-                  <td>{{contatoGestor.tipo}}</td>
-                  <td>{{contatoGestor.telefone}}</td>
+                <tr *ngFor="let contatoGestor of  emailsTelefone;let i = index" class="ui center aligned collapsing">
+                  <td>{{contatoGestor?.dsEmail}}</td>
+                  <td>{{contatoGestor?.tpTelefone}}</td>
+                  <td>{{contatoGestor?.dsTelefone}}</td>
 
 
                   <td class="ui center aligned collapsing">
@@ -367,7 +367,7 @@
                       popupInverted="true">
                       <i class="pencil alternate icon"></i>
                     </a>
-                    <a class="mini ui icon button circular" (click)="removerGestor(gestor.cpf, i)" suiPopup popupHeader="Remover"
+                    <a class="mini ui icon button circular" (click)="removerContatos(i)" suiPopup popupHeader="Remover"
                       popupInverted="true">
                       <i class="trash alternate icon"></i>
                     </a>
